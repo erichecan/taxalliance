@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxalliance — 合伙人商业提案</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #e8731a;
+    --accent2: #2a7d4f;
+    --light-bg: #f7f9fc;
+    --border: #dde3ec;
+    --text: #1e2533;
+    --muted: #667185;
+    --tag-a: #1a3a5c;
+    --tag-b: #2a7d4f;
+    --risk-high: #c0392b;
+    --risk-mid: #e67e22;
+    --risk-low: #27ae60;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: linear-gradient(135deg, #0f2540 0%, #1a3a5c 50%, #1e5799 100%);
+    color: #fff;
+    padding: 80px 60px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    right: -80px; top: -80px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .cover::after {
+    content: "";
+    position: absolute;
+    right: 80px; bottom: -120px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(232,115,26,0.15);
+  }
+  .cover-label {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 18px;
+  }
+  .cover h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .cover h1 span { color: #f5a843; }
+  .cover-sub {
+    font-size: 20px;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .cover-meta-item { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .cover-meta-item strong { display: block; color: #fff; font-size: 15px; }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .nav a {
+    display: inline-block;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav a:hover { color: var(--primary); border-bottom-color: var(--primary); }
+
+  /* ── LAYOUT ── */
+  .section {
+    padding: 64px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:nth-child(even) { background: var(--light-bg); }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .section h2 {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+
+  /* ── DIRECTION CARDS ── */
+  .direction-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .direction-card {
+    border-radius: 12px;
+    padding: 32px;
+    border: 1px solid var(--border);
+  }
+  .direction-card.a { background: #eef3fa; border-color: #b8cce4; }
+  .direction-card.b { background: #eaf5ef; border-color: #a8d5bc; }
+  .direction-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  .direction-card.a .direction-tag { background: var(--tag-a); color: #fff; }
+  .direction-card.b .direction-tag { background: var(--tag-b); color: #fff; }
+  .direction-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+  .direction-card p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+  .direction-card ul { margin-top: 14px; padding-left: 18px; }
+  .direction-card ul li { font-size: 14px; color: var(--muted); margin-bottom: 5px; }
+
+  .synergy-box {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #fff5eb, #fff);
+    border: 1px solid #f5c896;
+    border-radius: 10px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .synergy-icon { font-size: 28px; flex-shrink: 0; }
+  .synergy-box h4 { font-size: 15px; font-weight: 700; color: #b5530a; margin-bottom: 6px; }
+  .synergy-box p { font-size: 14px; color: #7d5030; line-height: 1.6; }
+
+  /* ── MODULE GRID ── */
+  .modules-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .module-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .module-section-title.a { background: #dbe9f7; color: #1a3a5c; }
+  .module-section-title.b { background: #d4edd9; color: #2a7d4f; }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .module-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 22px 24px;
+    transition: box-shadow 0.2s;
+  }
+  .module-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.08); }
+  .module-card.type-a { border-top: 3px solid var(--tag-a); }
+  .module-card.type-b { border-top: 3px solid var(--tag-b); }
+  .module-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .module-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--primary);
+  }
+  .module-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .module-card ul { margin-top: 8px; padding-left: 16px; }
+  .module-card ul li { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .module-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .badge-core { background: #fef3e2; color: #b5530a; }
+  .badge-diff { background: #e6f0ff; color: #1a4a8a; }
+  .badge-brand { background: #e9f7ef; color: #1e6b42; }
+
+  /* ── JOURNEY ── */
+  .journey-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .journey-step {
+    flex: 1;
+    min-width: 130px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    text-align: center;
+    position: relative;
+  }
+  .journey-step + .journey-step::before {
+    content: "→";
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .journey-step .step-icon { font-size: 26px; margin-bottom: 8px; }
+  .journey-step .step-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .journey-step .step-name { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .journey-step .step-detail { font-size: 12px; color: var(--muted); }
+  .journey-step.highlight { background: #eef3fa; border-color: #b8cce4; }
+
+  .journey-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .journey-detail-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .journey-detail-card h5 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .journey-detail-card ul { padding-left: 18px; }
+  .journey-detail-card ul li { font-size: 13px; color: var(--muted); margin-bottom: 5px; }
+
+  /* ── TECH ── */
+  .tech-compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .tech-compare th {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .tech-compare th:first-child { border-radius: 8px 0 0 0; }
+  .tech-compare th:last-child { border-radius: 0 8px 0 0; }
+  .tech-compare td { padding: 11px 16px; border-bottom: 1px solid var(--border); }
+  .tech-compare tr:hover td { background: #f5f8ff; }
+  .tech-compare tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+  .tech-compare tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+  .yes { color: #1e6b42; font-weight: 600; }
+  .no { color: #c0392b; font-weight: 600; }
+  .mid { color: #e67e22; font-weight: 600; }
+
+  /* ── RISK ── */
+  .risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .risk-table th {
+    background: #f0f4f8;
+    color: var(--primary);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+  }
+  .risk-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .risk-table tr:last-child td { border-bottom: none; }
+  .risk-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .risk-high { background: #fde8e8; color: var(--risk-high); }
+  .risk-mid { background: #fef3e2; color: var(--risk-mid); }
+  .risk-low { background: #e9f7ef; color: var(--risk-low); }
+
+  /* ── PRICING ── */
+  .pricing-intro {
+    background: #f0f4fa;
+    border-left: 4px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 22px;
+    margin-bottom: 32px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .pricing-intro strong { color: var(--primary); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+  .pricing-block h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pricing-block > p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+
+  .pricing-plan {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    background: #fff;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .pricing-plan.recommended {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(26,58,92,0.12);
+  }
+  .recommended-badge {
+    position: absolute;
+    top: -1px; right: 16px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 0 0 6px 6px;
+  }
+  .plan-name { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .plan-price { font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+  .plan-price span { font-size: 14px; font-weight: 400; color: var(--muted); }
+  .plan-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .plan-features { padding-left: 16px; }
+  .plan-features li { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+
+  .franchise-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .franchise-table th {
+    background: var(--accent2);
+    color: #fff;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .franchise-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .franchise-table tr:last-child td { border-bottom: none; }
+
+  .differentiator-box {
+    background: linear-gradient(135deg, #fff8f0, #fff);
+    border: 1px solid #f5c896;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 24px;
+  }
+  .differentiator-box h4 { font-size: 15px; font-weight: 700; color: #7d3b0a; margin-bottom: 10px; }
+  .differentiator-box table { width: 100%; font-size: 13px; }
+  .differentiator-box td { padding: 8px 12px; border-bottom: 1px solid #f0d9bf; }
+  .differentiator-box tr:last-child td { border-bottom: none; }
+  .differentiator-box td:first-child { color: var(--muted); }
+  .differentiator-box td:nth-child(2) { color: var(--risk-high); font-weight: 600; }
+  .differentiator-box td:nth-child(3) { color: var(--risk-low); font-weight: 600; }
+
+  /* ── ROADMAP ── */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .phase-card {
+    border-radius: 10px;
+    padding: 22px 20px;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .phase-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .phase1 .phase-label { color: #1a3a5c; }
+  .phase2 .phase-label { color: #1e6b42; }
+  .phase3 .phase-label { color: #7d3b0a; }
+  .phase4 .phase-label { color: #5a1a8a; }
+  .phase1 { border-top: 3px solid #1a3a5c; }
+  .phase2 { border-top: 3px solid #1e6b42; }
+  .phase3 { border-top: 3px solid #e8731a; }
+  .phase4 { border-top: 3px solid #5a1a8a; }
+  .phase-title { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .phase-period { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .phase-card ul { padding-left: 16px; }
+  .phase-card ul li { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .phase-goal {
+    margin-top: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--light-bg);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+
+  /* ── ACTION ITEMS ── */
+  .action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .action-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .action-num {
+    width: 32px; height: 32px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .action-card h5 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .action-card p { font-size: 13px; color: var(--muted); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.7);
+    padding: 40px 60px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer strong { color: #fff; }
+
+  @media (max-width: 768px) {
+    .section { padding: 40px 24px; }
+    .cover { padding: 48px 24px; }
+    .direction-grid, .pricing-grid, .action-grid, .journey-detail-grid { grid-template-columns: 1fr; }
+    .roadmap { grid-template-columns: 1fr 1fr; }
+    .cover h1 { font-size: 28px; }
+    .journey-flow { flex-direction: column; }
+    .journey-step + .journey-step::before { content: "↓"; left: 50%; top: -14px; transform: translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ COVER ══════════════════════ -->
+<div class="cover">
+  <div class="cover-label">商业合伙提案 · 保密文件</div>
+  <h1>Taxalliance<br><span>AI 驱动的加拿大税务联盟</span></h1>
+  <div class="cover-sub">两大业务方向 · 11 个功能模块 · 分阶段落地路线图</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <strong>提案日期</strong>
+      2026 年 6 月 22 日
+    </div>
+    <div class="cover-meta-item">
+      <strong>提案方向</strong>
+      T2 AI 报税 SaaS + 税务联盟加盟
+    </div>
+    <div class="cover-meta-item">
+      <strong>目标市场</strong>
+      加拿大小企业 T2 企业所得税
+    </div>
+    <div class="cover-meta-item">
+      <strong>文件状态</strong>
+      合伙人内部讨论版
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ NAV ══════════════════════ -->
+<nav class="nav">
+  <a href="#overview">业务概览</a>
+  <a href="#modules">11 个模块</a>
+  <a href="#journey">客户旅程</a>
+  <a href="#roadmap">建设路线</a>
+  <a href="#pricing">报价方案</a>
+</nav>
+
+<!-- ══════════════════════ SECTION 1: OVERVIEW ══════════════════════ -->
+<div class="section" id="overview">
+  <div class="section-label">Section 01</div>
+  <h2>两大业务方向</h2>
+  <p class="section-desc">以 AI 技术为核心差异化，构建 SaaS 工具与加盟品牌双轮驱动的税务服务生态。</p>
+
+  <div class="direction-grid">
+    <div class="direction-card a">
+      <div class="direction-tag">方向 A</div>
+      <h3>T2 AI 企业报税 SaaS</h3>
+      <p>面向加拿大小型企业和会计师事务所，提供从文件收集、AI 识别、科目映射、T2 表格自动填写，到 CRA 电子提交的端到端自动化流程。</p>
+      <ul>
+        <li>🤖 Veryfi AI 秒级识别 PDF / 扫描件 / CSV / Excel</li>
+        <li>🗺️ AI 自动映射 GIFI 加拿大会计科目代码</li>
+        <li>📋 T2 附表（Schedule 100/125/140/1/7/8）自动预填</li>
+        <li>✅ 会计师复核工作台，所有 AI 结果人工确认</li>
+        <li>📡 通过 TaxCycle 对接 CRA EFILE 电子提交</li>
+      </ul>
+    </div>
+    <div class="direction-card b">
+      <div class="direction-tag">方向 B</div>
+      <h3>税务联盟加盟品牌</h3>
+      <p>建立税务机构连锁加盟体系，加盟商缴纳加盟费后使用统一品牌，在 Google Maps 展示连锁标志，以方向 A 的 AI 工具作为核心竞争力向加盟商赋能。</p>
+      <ul>
+        <li>🏪 加盟商管理后台：合同签署、资质审核、培训</li>
+        <li>📍 Google Maps 品牌统一管理（GBP 批量运营）</li>
+        <li>🖥️ 白标 AI 工具平台：加盟商独立账户，联盟品牌</li>
+        <li>🎨 品牌资产中心：Logo、模板、营销素材统一管控</li>
+        <li>💰 无营收分成模式（vs H&R Block 12% 持续抽成）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="synergy-box">
+    <div class="synergy-icon">🔗</div>
+    <div>
+      <h4>核心战略：双轮互驱</h4>
+      <p>方向 A 的 AI 工具是方向 B 加盟体系的核心差异化竞争力——加盟商用这套 AI 工具，才能比传统税务机构效率高 5 倍、成本低 60%。方向 B 的加盟网络则为方向 A 带来规模化 B2B 客户获取。两个方向最终合并为"技术驱动的税务联盟"，形成强护城河。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 2: MODULES ══════════════════════ -->
+<div class="section" id="modules">
+  <div class="section-label">Section 02</div>
+  <h2>11 个功能模块详解</h2>
+  <p class="section-desc">7 个报税 SaaS 模块（方向 A）+ 4 个加盟品牌模块（方向 B），分阶段建设，首期聚焦核心价值。</p>
+
+  <div class="modules-header">
+    <div class="module-section-title a">🔵 方向 A — T2 AI 报税工具（模块 1-7）</div>
+    <div class="module-section-title b">🟢 方向 B — 税务联盟加盟品牌（模块 8-11）</div>
+  </div>
+
+  <div class="module-grid">
+    <!-- Module 1 -->
+    <div class="module-card type-a">
+      <div class="module-num">MODULE 01</div>
+      <div class="module-badge badge-core">Phase 1 · 优先</div>
+      <h4>客户门户 Client Portal</h4>
+      <p>会计师将专属链接发给客户，客户在此上传报税材料，全程可视化进度追踪。</p>
+      <ul>
+        <li>定时提醒：按截止日倒计时自动发邮件/短信</li>
+        <li>材料清单：会计师预设所需文件类型</li>
+        <li>多格式上传：PDF、图片、CSV、Excel，支持批量</li>
+        <li>进度追踪："已上传 3/6 项，缺 Q4 银行流水"</li>
+        <li>存储合规：加拿大境内服务器（PIPEDA）</li>
+      </ul>
+    </div>
+
+    <!-- Module 2 -->
+    <div class="module-card type-a">
+      <div class="module-num">MODULE 02</div>
+      <div class="module-badge badge-core">Phase 1 · 优先</div>
+      <h4>AI 文档识别层 OCR Engine</h4>
+      <p>接入 Veryfi REST API，秒级返回结构化数据，无需人工排队处理。</p>
+      <ul>
+        <li>收据/发票：金额、日期、供应商、GST/HST 税额</li>
+        <li>银行流水 PDF：逐行提取每笔交易</li>
+        <li>CSV/Excel：直接解析结构化数据</li>
+        <li>置信度评分：低于阈值标记为"需人工确认"</li>
+        <li>重复检测：同一文件二次上传自动提示</li>
+      </ul>
+    </div>
+
+    <!-- Module 3 -->
+    <div class="module-card type-a">
+      <div class="module-num">MODULE 03</div>
+      <div class="module-badge badge-diff">Phase 2 · 核心差异化</div>
+      <h4>GIFI 科目映射引擎</h4>
+      <p>市场最大空白——现有工具均依赖手动映射，本系统用 AI 实现自动化。</p>
+      <ul>
+        <li>"Tim Hortons $12.50" → GIFI 8811 餐饮费</li>
+        <li>"AWS 账单" → GIFI 8810 IT 费用</li>
+        <li>LLM（Claude API）+ 规则引擎混合处理</li>
+        <li>会计师修正后自动学习，下次同类自动通过</li>
+        <li>三级置信度：自动通过 / AI 建议 / 必须人工</li>
+      </ul>
+    </div>
+
+    <!-- Module 4 -->
+    <div class="module-card type-a">
+      <div class="module-num">MODULE 04</div>
+      <div class="module-badge badge-diff">Phase 2</div>
+      <h4>T2 表格自动预填</h4>
+      <p>将 GIFI 映射结果自动填入 T2 对应附表，会计师只需复核数字而非手动录入。</p>
+      <ul>
+        <li>Schedule 100：资产负债表（GIFI）</li>
+        <li>Schedule 125：损益表（GIFI）</li>
+        <li>Schedule 140：简版损益表汇总</li>
+        <li>Schedule 1：净收入调整（会计→税务利润）</li>
+        <li>Schedule 7：小企业税率资格判断</li>
+        <li>Schedule 8：CCA 资本成本摊销</li>
+      </ul>
+    </div>
+
+    <!-- Module 5 -->
+    <div class="module-card type-a">
+      <div class="module-num">MODULE 05</div>
+      <div class="module-badge badge-diff">Phase 2</div>
+      <h4>会计师复核工作台</h4>
+      <p>质量控制核心界面——所有 AI 结果必须经会计师人工确认后才可提交。</p>
+      <ul>
+        <li>三栏布局：原始文件 | AI 识别结果 | T2 预览</li>
+        <li>逐条复核：显示来源、识别内容、建议 GIFI、置信度</li>
+        <li>内联编辑：实时修改并同步更新 T2 表格</li>
+        <li>异常高亮：金额超历史均值 3 倍自动标红</li>
+        <li>审计追踪：记录每次修改的操作人和时间</li>
+      </ul>
+    </div>
+
+    <!-- Module 6 -->
+    <div class="module-card type-a">
+      <div class="module-num">MODULE 06</div>
+      <div class="module-badge badge-diff">Phase 3</div>
+      <h4>CRA EFILE 提交（TaxCycle）</h4>
+      <p>生成标准 GIFI CSV 文件，导入 TaxCycle，由持证会计师在 TaxCycle 桌面端完成最终提交。</p>
+      <ul>
+        <li>系统生成 .GFI / .CSV 格式文件（GIFI 规范）</li>
+        <li>TaxCycle 自动填充 Schedule 100/125/140</li>
+        <li>会计师在 TaxCycle 复核 + 手动点击提交</li>
+        <li>注：EFILE 最后一步需会计师手动操作（CRA 要求）</li>
+        <li>未来：自申请 CRA 认证后可完全自动化</li>
+      </ul>
+    </div>
+
+    <!-- Module 7 -->
+    <div class="module-card type-a">
+      <div class="module-num">MODULE 07</div>
+      <div class="module-badge badge-core">Phase 1 · 基础</div>
+      <h4>报告与数据分析</h4>
+      <p>双端报告：面向客户的非技术语言摘要 + 面向会计师的批量状态 Dashboard。</p>
+      <ul>
+        <li>客户报告：应缴税款估算、收支分类饼图、年度对比</li>
+        <li>行动项："需补缴 $3,200，截止 3 月 31 日"</li>
+        <li>会计师 Dashboard：客户进度批量视图</li>
+        <li>AI 准确率统计：自动通过 vs 人工修改比例</li>
+      </ul>
+    </div>
+
+    <!-- Module 8 -->
+    <div class="module-card type-b">
+      <div class="module-num">MODULE 08</div>
+      <div class="module-badge badge-brand">Phase 4</div>
+      <h4>加盟商管理后台</h4>
+      <p>加盟体系运营核心：从申请入盟、合同签署到培训考核的全流程管理。</p>
+      <ul>
+        <li>在线申请表 + 资质审核工作流</li>
+        <li>电子合同签署（DocuSign 集成）</li>
+        <li>加盟商档案：区域、联系人、加入日期</li>
+        <li>费用管理：加盟费收取、年度平台费计算</li>
+        <li>培训材料库：操作手册、税务知识、视频教程</li>
+      </ul>
+    </div>
+
+    <!-- Module 9 -->
+    <div class="module-card type-b">
+      <div class="module-num">MODULE 09</div>
+      <div class="module-badge badge-brand">Phase 4</div>
+      <h4>Google Maps 品牌管理系统</h4>
+      <p>总部统一掌控各门店 GBP 品牌标识，加盟商只能修改营业时间等本地信息。</p>
+      <ul>
+        <li>批量创建 Google Business Profile（GBP）档案</li>
+        <li>NAP（名称/地址/电话）统一管控</li>
+        <li>权限分层：总部控品牌，加盟商控本地内容</li>
+        <li>评论聚合监控：统一回复规范</li>
+        <li>内容日历：1 月统一推送"春季报税优惠"帖文</li>
+      </ul>
+    </div>
+
+    <!-- Module 10 -->
+    <div class="module-card type-b">
+      <div class="module-num">MODULE 10</div>
+      <div class="module-badge badge-brand">Phase 4</div>
+      <h4>加盟商技术平台入口</h4>
+      <p>每个加盟商获得独立的白标 AI 工具账户，功能与方向 A 完全相同，界面显示联盟品牌。</p>
+      <ul>
+        <li>按加盟等级限制客户数（如 50 户/年或无限）</li>
+        <li>白标界面：加盟商名称 + 联盟 Logo</li>
+        <li>使用数据看板：总部查看各加盟商活跃度</li>
+        <li>权限管理：总部可临时暂停违规加盟商账户</li>
+      </ul>
+    </div>
+
+    <!-- Module 11 -->
+    <div class="module-card type-b">
+      <div class="module-num">MODULE 11</div>
+      <div class="module-badge badge-brand">Phase 4</div>
+      <h4>品牌资产中心</h4>
+      <p>标准化品牌视觉管理，确保全国各地加盟门店视觉一致性，同时允许本地化定制。</p>
+      <ul>
+        <li>Logo、名片、门店设计规范下载</li>
+        <li>营销素材：海报模板、社交媒体模板</li>
+        <li>品牌锁定分层：锁定元素 vs 可定制区域</li>
+        <li>版本管控：统一更新品牌资产，自动同步各端</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 3: JOURNEY ══════════════════════ -->
+<div class="section" id="journey">
+  <div class="section-label">Section 03</div>
+  <h2>实际客户旅程</h2>
+  <p class="section-desc">从客户收到提醒到税务申报完成——完整端到端流程，AI 自动化处理 80%，会计师专注复核决策。</p>
+
+  <div class="journey-flow">
+    <div class="journey-step">
+      <div class="step-icon">📧</div>
+      <div class="step-num">STEP 1</div>
+      <div class="step-name">自动提醒</div>
+      <div class="step-detail">系统按截止日<br>倒计时发提醒</div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">📁</div>
+      <div class="step-num">STEP 2</div>
+      <div class="step-name">客户上传</div>
+      <div class="step-detail">PDF / 图片 /<br>CSV / Excel</div>
+    </div>
+    <div class="journey-step highlight">
+      <div class="step-icon">🤖</div>
+      <div class="step-num">STEP 3</div>
+      <div class="step-name">AI OCR 识别</div>
+      <div class="step-detail">Veryfi 秒级<br>结构化提取</div>
+    </div>
+    <div class="journey-step highlight">
+      <div class="step-icon">🗺️</div>
+      <div class="step-num">STEP 4</div>
+      <div class="step-name">GIFI 映射</div>
+      <div class="step-detail">AI + 规则引擎<br>自动分类科目</div>
+    </div>
+    <div class="journey-step highlight">
+      <div class="step-icon">📋</div>
+      <div class="step-num">STEP 5</div>
+      <div class="step-name">T2 预填</div>
+      <div class="step-detail">Schedule 100/<br>125/140 自动</div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">👩‍💼</div>
+      <div class="step-num">STEP 6</div>
+      <div class="step-name">会计师复核</div>
+      <div class="step-detail">逐条确认<br>内联编辑</div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">📤</div>
+      <div class="step-num">STEP 7</div>
+      <div class="step-name">GIFI → TaxCycle</div>
+      <div class="step-detail">导出标准 CSV<br>导入 TaxCycle</div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">🏛️</div>
+      <div class="step-num">STEP 8</div>
+      <div class="step-name">提交 CRA</div>
+      <div class="step-detail">会计师 TaxCycle<br>点击提交</div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">✅</div>
+      <div class="step-num">STEP 9</div>
+      <div class="step-name">完成报告</div>
+      <div class="step-detail">客户收到<br>结果摘要</div>
+    </div>
+  </div>
+
+  <div class="journey-detail-grid">
+    <div class="journey-detail-card">
+      <h5>🤖 AI 自动化完成（Step 3–5）</h5>
+      <ul>
+        <li>Veryfi API 处理速度：<strong>秒级</strong>（传统方式需数天手动录入）</li>
+        <li>识别准确率：收据 99%+，银行流水 99.8%</li>
+        <li>GIFI 高置信度映射：<strong>约 70-80% 交易自动通过</strong>，无需人工</li>
+        <li>剩余 20-30% 模糊交易：AI 建议 + 会计师一键确认</li>
+        <li>T2 附表预填：会计师省去 90% 的手动录入工作量</li>
+      </ul>
+    </div>
+    <div class="journey-detail-card">
+      <h5>👩‍💼 会计师专注于判断（Step 6–8）</h5>
+      <ul>
+        <li>复核工作台三栏视图：原文件 | AI 结果 | T2 实时预览</li>
+        <li>异常自动高亮：金额超历史均值 3 倍红色提示</li>
+        <li>审计追踪：每次修改记录操作人和时间（符合 CPA 要求）</li>
+        <li>GIFI CSV 一键导出 → 导入 TaxCycle</li>
+        <li>TaxCycle 自动填充附表，会计师最终审核提交 CRA</li>
+      </ul>
+    </div>
+    <div class="journey-detail-card">
+      <h5>🏢 客户视角</h5>
+      <ul>
+        <li>收到专属链接，无需安装任何软件</li>
+        <li>上传材料后，实时看到哪些还缺</li>
+        <li>进度通知："您的 T2 正在处理中 / 已提交 CRA"</li>
+        <li>完成后收到简洁摘要报告（非技术语言）</li>
+        <li>全程无需来办公室，远程完成</li>
+      </ul>
+    </div>
+    <div class="journey-detail-card">
+      <h5>📍 加盟商视角（方向 B）</h5>
+      <ul>
+        <li>使用白标版 AI 工具，操作流程完全相同</li>
+        <li>Google Maps 显示联盟 Logo，客户搜索税务时品牌更可信</li>
+        <li>总部统一培训 + 系统支持，新手快速上手</li>
+        <li>报税季高峰期效率优势：AI 处理 80%，每个会计师可服务 3x 客户数</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════ SECTION 5: ROADMAP ══════════════════════ -->
+<div class="section" id="roadmap">
+  <div class="section-label">Section 05</div>
+  <h2>分阶段建设路线图</h2>
+  <p class="section-desc">18 个月打通核心功能，Phase 1 快速上线验证市场，无需等待完整系统。</p>
+
+  <div class="roadmap">
+    <div class="phase-card phase1">
+      <div class="phase-label">Phase 1</div>
+      <div class="phase-title">文件收集 + OCR 识别</div>
+      <div class="phase-period">0–6 个月</div>
+      <ul>
+        <li>模块 1：客户门户</li>
+        <li>模块 2：Veryfi OCR 集成</li>
+        <li>模块 7：基础报告</li>
+        <li>AWS 加拿大区存储</li>
+        <li>基本提醒系统</li>
+      </ul>
+      <div class="phase-goal">🎯 目标：上线可用产品，验证市场需求，无需 CRA 认证</div>
+    </div>
+
+    <div class="phase-card phase2">
+      <div class="phase-label">Phase 2</div>
+      <div class="phase-title">GIFI 映射 + T2 预填</div>
+      <div class="phase-period">6–12 个月</div>
+      <ul>
+        <li>模块 3：GIFI 科目映射引擎</li>
+        <li>模块 4：T2 表格预填</li>
+        <li>模块 5：会计师复核工作台</li>
+        <li>Claude API 集成</li>
+        <li>联系 TaxCycle 申请 API 协议</li>
+      </ul>
+      <div class="phase-goal">🎯 目标：核心差异化功能上线，完整 AI 报税流程可跑通</div>
+    </div>
+
+    <div class="phase-card phase3">
+      <div class="phase-label">Phase 3</div>
+      <div class="phase-title">TaxCycle 对接 + 完整链路</div>
+      <div class="phase-period">12–18 个月</div>
+      <ul>
+        <li>模块 6：TaxCycle GIFI CSV 导出</li>
+        <li>完整 T2 附表支持</li>
+        <li>API 自动化导入（TaxCycle）</li>
+        <li>启动 CRA EFILE 自有认证申请</li>
+        <li>SOC 2 Type II 安全认证</li>
+      </ul>
+      <div class="phase-goal">🎯 目标：从识别到 CRA 提交全链路打通，达到商业化标准</div>
+    </div>
+
+    <div class="phase-card phase4">
+      <div class="phase-label">Phase 4</div>
+      <div class="phase-title">联盟品牌体系上线</div>
+      <div class="phase-period">18+ 个月</div>
+      <ul>
+        <li>模块 8：加盟商管理后台</li>
+        <li>模块 9：Google Maps 品牌系统</li>
+        <li>模块 10：白标技术平台</li>
+        <li>模块 11：品牌资产中心</li>
+        <li>加盟商培训体系</li>
+      </ul>
+      <div class="phase-goal">🎯 目标：以 AI 工具为核心竞争力，建立全国加盟商生态</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════ SECTION 7: PRICING ══════════════════════ -->
+<div class="section" id="pricing">
+  <div class="section-label">Section 07</div>
+  <h2>整体方案报价与收费结构</h2>
+  <p class="section-desc">双轨收费模式：SaaS 工具订阅 + 加盟品牌费用。核心差异化：无营收分成，打破 H&R Block 模式。</p>
+
+  <div class="pricing-intro">
+    <strong>定价原则：</strong>对会计师事务所按客户数量阶梯定价；对加盟商一次性收取加盟费 + 年度平台技术费，<strong>永不抽取营收分成</strong>——这是对比 H&R Block（每年 12% 营收分成）的核心竞争优势。加盟商随着业务增长，费用占比越来越低。
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Direction A Pricing -->
+    <div class="pricing-block">
+      <h3><span style="background:#dbe9f7; color:#1a3a5c; padding:3px 8px; border-radius:4px; font-size:13px;">方向 A</span> T2 AI 报税 SaaS</h3>
+      <p>面向会计师事务所的月度订阅，按管理的客户企业数量定价。</p>
+
+      <div class="pricing-plan">
+        <div class="plan-name">入门版 Starter</div>
+        <div class="plan-price">$199 <span>CAD / 月</span></div>
+        <div class="plan-desc">适合独立会计师 / 小型事务所</div>
+        <ul class="plan-features">
+          <li>最多 20 家客户企业</li>
+          <li>1 个会计师账户</li>
+          <li>Veryfi OCR（含 200 份/月）</li>
+          <li>GIFI 映射 + T2 预填</li>
+          <li>基础报告</li>
+        </ul>
+      </div>
+
+      <div class="pricing-plan recommended">
+        <div class="recommended-badge">推荐</div>
+        <div class="plan-name">专业版 Professional</div>
+        <div class="plan-price">$399 <span>CAD / 月</span></div>
+        <div class="plan-desc">适合成长型事务所</div>
+        <ul class="plan-features">
+          <li>最多 50 家客户企业</li>
+          <li>3 个会计师账户</li>
+          <li>Veryfi OCR（含 600 份/月）</li>
+          <li>GIFI 映射 + T2 预填</li>
+          <li>会计师复核工作台（全功能）</li>
+          <li>客户门户自定义品牌</li>
+          <li>优先支持（响应 &lt;24h）</li>
+        </ul>
+      </div>
+
+      <div class="pricing-plan">
+        <div class="plan-name">机构版 Agency</div>
+        <div class="plan-price">$799 <span>CAD / 月</span></div>
+        <div class="plan-desc">适合大型事务所 / 加盟总部内部使用</div>
+        <ul class="plan-features">
+          <li>无限客户企业</li>
+          <li>10 个会计师账户</li>
+          <li>Veryfi OCR（含 1500 份/月，超出按量）</li>
+          <li>API 接入（与内部系统集成）</li>
+          <li>白标定制（品牌、域名）</li>
+          <li>专属客户成功经理</li>
+          <li>优先 SLA（响应 &lt;4h）</li>
+        </ul>
+      </div>
+
+      <div style="font-size:12px; color:var(--muted); margin-top:8px;">📝 年付优惠：享受 2 个月免费（相当于 83 折）。TaxCycle 软件需会计师自行购买（$1,102 CAD/年起）。</div>
+    </div>
+
+    <!-- Direction B Pricing -->
+    <div class="pricing-block">
+      <h3><span style="background:#d4edd9; color:#2a7d4f; padding:3px 8px; border-radius:4px; font-size:13px;">方向 B</span> 税务联盟加盟费用</h3>
+      <p>加盟商一次性缴纳加盟费，之后仅需年度平台技术费，无营收分成。</p>
+
+      <table class="franchise-table" style="margin-bottom:12px;">
+        <thead>
+          <tr>
+            <th>费用项目</th>
+            <th>金额</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>加盟费（一次性）</strong></td>
+            <td style="font-weight:700; color:#1a3a5c;">$15,000–$25,000 CAD</td>
+            <td style="font-size:12px;">根据城市规模、区域独占权定价；含首年平台费</td>
+          </tr>
+          <tr>
+            <td><strong>年度平台技术费</strong></td>
+            <td style="font-weight:700; color:#1a3a5c;">$2,400–$4,800 CAD/年</td>
+            <td style="font-size:12px;">含 AI 工具使用权（白标）+ GBP 品牌系统 + 培训</td>
+          </tr>
+          <tr>
+            <td><strong>营收分成</strong></td>
+            <td style="font-weight:700; color:#1e6b42;">$0（永不抽成）</td>
+            <td style="font-size:12px;">核心差异化竞争优势 vs H&R Block</td>
+          </tr>
+          <tr>
+            <td>区域独占权</td>
+            <td>按城市划分</td>
+            <td style="font-size:12px;">同一城市最多 2-3 个加盟商，保障竞争空间</td>
+          </tr>
+          <tr>
+            <td>TaxCycle 软件</td>
+            <td>加盟商自购</td>
+            <td style="font-size:12px;">约 $1,102 CAD/年，可推荐团购折扣</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="background:#eaf5ef; border-radius:8px; padding:16px 18px; font-size:13px; margin-bottom:12px;">
+        <div style="font-weight:700; color:#1e6b42; margin-bottom:8px;">📊 加盟商投资回报估算</div>
+        <div style="color:var(--muted); line-height:1.8;">
+          <strong>假设：</strong>服务 100 家小企业客户，每家 T2 报税收费 $800 CAD<br>
+          <strong>年营收：</strong>$80,000 CAD<br>
+          <strong>年成本：</strong>平台费 $4,800 + TaxCycle $1,102 + 其他 ≈ $8,000<br>
+          <strong>净利润率：</strong>约 90%（100 个客户中 AI 节省约 70% 人工时间）<br>
+          <strong>加盟费回收周期：</strong>约 3–6 个月（业务成熟后）
+        </div>
+      </div>
+
+      <div style="font-size:12px; color:var(--muted);">📝 加盟费包含：入职培训（2天）、系统设置支持、品牌物料首套、Google Maps 初始设置。年度技术费按年付，不支持月付。</div>
+    </div>
+  </div>
+
+  <div class="differentiator-box">
+    <h4>🏆 关键差异化对比：我们 vs H&R Block 加盟</h4>
+    <table>
+      <tr style="font-weight:700;">
+        <td>对比维度</td>
+        <td style="text-align:center;">H&R Block 加盟</td>
+        <td style="text-align:center;">Taxalliance 加盟</td>
+      </tr>
+      <tr>
+        <td>初始加盟费</td>
+        <td style="text-align:center;">$25,000+ CAD</td>
+        <td style="text-align:center; color:#1e6b42;">$15,000–$25,000 CAD</td>
+      </tr>
+      <tr>
+        <td>持续营收分成</td>
+        <td style="text-align:center; color:#c0392b;">营收 12%，永久</td>
+        <td style="text-align:center; color:#1e6b42;">$0，永不分成</td>
+      </tr>
+      <tr>
+        <td>AI 自动化工具</td>
+        <td style="text-align:center; color:#c0392b;">基本无</td>
+        <td style="text-align:center; color:#1e6b42;">全套 T2 AI 报税系统</td>
+      </tr>
+      <tr>
+        <td>T2 企业报税支持</td>
+        <td style="text-align:center; color:#e67e22;">弱（主攻个人 T1）</td>
+        <td style="text-align:center; color:#1e6b42;">核心产品，深度优化</td>
+      </tr>
+      <tr>
+        <td>100 客户/年累计成本（5年）</td>
+        <td style="text-align:center; color:#c0392b;">$25,000 + $400,000 分成 = $425,000</td>
+        <td style="text-align:center; color:#1e6b42;">$20,000 + $24,000 平台费 = $44,000</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<div class="footer">
+  <div>
+    <strong>Taxalliance</strong> — AI 驱动的加拿大税务联盟<br>
+    本文件为合伙人内部讨论版，请勿对外传播
+  </div>
+  <div style="text-align:right;">
+    提案日期：2026 年 6 月 22 日<br>
+    版本：v1.0 · 保密文件
+  </div>
+</div>
+
+</body>
+</html>

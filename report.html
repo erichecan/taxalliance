@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加拿大 T2 企业报税市场深度调研报告</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #e8a020;
+    --accent2: #2ecc71;
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #6c757d;
+    --border: #dee2e6;
+    --danger: #e74c3c;
+    --info: #3498db;
+    --tag-blue: #dbeafe;
+    --tag-green: #d1fae5;
+    --tag-orange: #fef3c7;
+    --tag-red: #fee2e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', -apple-system, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--primary); color: #fff; padding: 0 32px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 14px 10px; font-size: 13px; white-space: nowrap; transition: color .2s; }
+  nav a:hover, nav a.active { color: var(--accent); }
+  nav .logo { font-weight: 700; font-size: 16px; color: #fff; padding: 14px 16px 14px 0; margin-right: 8px; border-right: 1px solid rgba(255,255,255,0.2); }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, var(--primary) 0%, #2c5282 60%, #1a6b8a 100%); color: #fff; padding: 64px 48px 56px; }
+  .hero h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.25; margin-bottom: 16px; }
+  .hero p { font-size: 1.1rem; opacity: 0.85; max-width: 720px; margin-bottom: 28px; }
+  .hero-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hero-meta span { font-size: 13px; opacity: 0.75; }
+  .hero-meta strong { color: var(--accent); }
+
+  /* MAIN */
+  main { max-width: 1280px; margin: 0 auto; padding: 40px 32px 80px; }
+  section { margin-bottom: 72px; scroll-margin-top: 64px; }
+  h2 { font-size: 1.6rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; padding-bottom: 10px; border-bottom: 3px solid var(--accent); display: inline-block; }
+  h3 { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin: 28px 0 12px; }
+  h4 { font-size: 1rem; font-weight: 600; margin: 16px 0 8px; color: var(--text); }
+  p { margin-bottom: 12px; color: #444; }
+  .section-intro { color: var(--muted); font-size: 14px; margin-bottom: 28px; max-width: 800px; }
+
+  /* CARDS */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+  .card { background: var(--card); border-radius: 10px; padding: 24px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .card-title { font-weight: 700; font-size: 1.05rem; color: var(--primary); }
+  .card-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .badge-green { background: var(--tag-green); color: #065f46; }
+  .badge-blue { background: var(--tag-blue); color: #1e40af; }
+  .badge-orange { background: var(--tag-orange); color: #92400e; }
+  .badge-red { background: var(--tag-red); color: #991b1b; }
+  .card ul { list-style: none; padding: 0; }
+  .card ul li { font-size: 13px; color: #555; padding: 4px 0; border-bottom: 1px solid var(--bg); display: flex; gap: 6px; }
+  .card ul li:last-child { border-bottom: none; }
+  .card ul li::before { content: "▸"; color: var(--accent); flex-shrink: 0; }
+  .price-tag { background: var(--primary); color: #fff; border-radius: 6px; padding: 8px 14px; text-align: center; margin-top: 14px; }
+  .price-tag .price { font-size: 1.2rem; font-weight: 800; color: var(--accent); }
+  .price-tag .label { font-size: 11px; opacity: 0.75; }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; margin: 20px 0; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  table { width: 100%; border-collapse: collapse; background: var(--card); font-size: 13.5px; }
+  th { background: var(--primary); color: #fff; padding: 12px 16px; text-align: left; font-weight: 600; white-space: nowrap; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafbfc; }
+  tr:hover td { background: #f0f4ff; }
+  .check { color: #2ecc71; font-weight: 700; }
+  .cross { color: #e74c3c; }
+  .partial { color: #f39c12; }
+
+  /* FLOW */
+  .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 0; margin: 24px 0; }
+  .flow-step { background: var(--primary); color: #fff; border-radius: 8px; padding: 12px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 120px; flex: 1; }
+  .flow-arrow { font-size: 20px; color: var(--accent); padding: 0 6px; flex-shrink: 0; }
+  .flow-small { font-size: 11px; opacity: 0.75; margin-top: 4px; font-weight: 400; }
+
+  /* CALLOUT */
+  .callout { border-radius: 8px; padding: 16px 20px; margin: 20px 0; border-left: 4px solid; }
+  .callout-blue { background: #eff6ff; border-color: var(--info); }
+  .callout-orange { background: #fffbeb; border-color: var(--accent); }
+  .callout-green { background: #f0fdf4; border-color: var(--accent2); }
+  .callout-red { background: #fef2f2; border-color: var(--danger); }
+  .callout strong { display: block; margin-bottom: 6px; font-size: 13px; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin: 24px 0; }
+  .stat { background: var(--card); border-radius: 10px; padding: 20px; border: 1px solid var(--border); text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* TOC */
+  .toc { background: var(--card); border-radius: 10px; border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 48px; }
+  .toc h3 { margin: 0 0 16px; color: var(--primary); font-size: 1rem; }
+  .toc ol { padding-left: 20px; }
+  .toc ol li { margin-bottom: 8px; }
+  .toc a { color: var(--primary); text-decoration: none; font-size: 14px; }
+  .toc a:hover { color: var(--accent); text-decoration: underline; }
+  .toc .toc-sub { font-size: 12.5px; color: var(--muted); margin-top: 4px; padding-left: 16px; list-style: disc; }
+
+  /* TAG LIST */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .tag { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box { background: linear-gradient(135deg, #1a3a5c, #2c5282); color: #fff; border-radius: 12px; padding: 28px 32px; margin: 28px 0; }
+  .highlight-box h3 { color: var(--accent); margin-top: 0; }
+  .highlight-box ul { padding-left: 20px; }
+  .highlight-box li { margin-bottom: 8px; font-size: 14px; opacity: 0.9; }
+
+  /* FRANCHISE TABLE */
+  .franchise-compare { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin: 20px 0; }
+  .franchise-card { background: var(--card); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+  .franchise-head { background: var(--primary); color: #fff; padding: 16px 20px; }
+  .franchise-head h4 { font-size: 1rem; margin: 0 0 4px; }
+  .franchise-head span { font-size: 12px; opacity: 0.75; }
+  .franchise-body { padding: 16px 20px; }
+  .franchise-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--bg); font-size: 13px; }
+  .franchise-row:last-child { border-bottom: none; }
+  .franchise-row .val { font-weight: 700; color: var(--primary); }
+
+  /* OPPORTUNITY */
+  .opportunity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  @media (max-width: 700px) { .opportunity-grid { grid-template-columns: 1fr; } }
+  .opp-card { border-radius: 10px; padding: 20px; }
+  .opp-pain { background: #fef2f2; border: 1px solid #fecaca; }
+  .opp-solution { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .opp-card h4 { margin-bottom: 10px; }
+  .opp-pain h4 { color: #991b1b; }
+  .opp-solution h4 { color: #065f46; }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.6); text-align: center; padding: 24px; font-size: 13px; margin-top: 40px; }
+  footer strong { color: rgba(255,255,255,0.9); }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">TaxAlliance 调研</span>
+  <a href="#overview">概览</a>
+  <a href="#t2-software">T2 申报软件</a>
+  <a href="#ai-ocr">AI 文档识别</a>
+  <a href="#cra-efile">CRA 接口</a>
+  <a href="#accounting-link">会计软件联动</a>
+  <a href="#practice-mgmt">实务管理平台</a>
+  <a href="#franchise">连锁加盟</a>
+  <a href="#opportunity">市场机会</a>
+</nav>
+
+<div class="hero">
+  <h1>加拿大 T2 企业报税市场<br>深度调研报告</h1>
+  <p>覆盖 T2 报税软件、AI 文档识别、CRA 电子接口、会计软件联动、税务实务管理平台及连锁加盟模式的全景分析，为构建 AI 驱动的 T2 自动化报税工具提供市场依据。</p>
+  <div class="hero-meta">
+    <span>报告日期：<strong>2026 年 6 月</strong></span>
+    <span>调研范围：<strong>加拿大联邦 + 各省</strong></span>
+    <span>覆盖软件：<strong>40+ 款</strong></span>
+    <span>数据来源：<strong>官网一手信息 + CRA 官方文件</strong></span>
+  </div>
+</div>
+
+<main>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h3>📋 目录</h3>
+    <ol>
+      <li><a href="#overview">市场概览与核心发现</a></li>
+      <li><a href="#t2-software">T2 企业报税软件全景</a>
+        <ul class="toc-sub">
+          <li>主流软件功能与价格对比</li>
+          <li>CRA 认证软件完整列表（24 款）</li>
+        </ul>
+      </li>
+      <li><a href="#ai-ocr">AI 文档识别与会计自动化工具</a>
+        <ul class="toc-sub">
+          <li>Dext / Hubdoc / Veryfi / Mindee 等详细对比</li>
+        </ul>
+      </li>
+      <li><a href="#cra-efile">CRA 电子申报接口（EFILE / CIF）</a>
+        <ul class="toc-sub">
+          <li>技术要求、GIFI 格式、认证流程</li>
+        </ul>
+      </li>
+      <li><a href="#accounting-link">会计软件与 T2 数据流转</a>
+        <ul class="toc-sub">
+          <li>QBO / Xero / Sage / Wave 集成方式</li>
+        </ul>
+      </li>
+      <li><a href="#practice-mgmt">税务实务管理 SaaS 平台</a>
+        <ul class="toc-sub">
+          <li>TaxDome / Canopy / Karbon / TaxFolder 功能对比</li>
+        </ul>
+      </li>
+      <li><a href="#franchise">加拿大税务连锁加盟模式</a>
+        <ul class="toc-sub">
+          <li>H&R Block / Liberty Tax / TaxAssist / Padgett 加盟费用</li>
+          <li>Google Maps 品牌曝光策略</li>
+        </ul>
+      </li>
+      <li><a href="#opportunity">市场空白与创业机会分析</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 1: OVERVIEW -->
+  <section id="overview">
+    <h2>市场概览与核心发现</h2>
+    <p class="section-intro">基于对加拿大 T2 报税市场的全面调研，以下是最关键的市场数字与战略发现。</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">24</div>
+        <div class="stat-label">CRA 认证 T2 申报软件数量</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">T2 强制电子申报（2023 税务年度起）</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">50K+</div>
+        <div class="stat-label">Dext 在加拿大的 SMB 客户数</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$0</div>
+        <div class="stat-label">CRA 公开 API（无开放接口）</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">300+</div>
+        <div class="stat-label">H&R Block 加拿大加盟店数量</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">99.9%</div>
+        <div class="stat-label">Dext AI 文档识别宣称准确率</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <h3>🔑 核心战略发现</h3>
+      <ul>
+        <li><strong>T2 自动化存在明确市场空白：</strong>目前没有任何面向小企业的端到端 T2 AI 自动化工具（从文件上传 → 科目识别 → 填表 → 提交 CRA 全链路），这是核心创业机会。</li>
+        <li><strong>CRA 不开放直连 API：</strong>所有 T2 电子申报必须通过 CRA 认证软件中转，新产品需要申请 CRA EFILE 认证（年度申请，签署保密协议）。</li>
+        <li><strong>GIFI 是核心数据标准：</strong>T2 申报的财务数据必须映射到 GIFI 科目代码，这是会计软件与报税软件之间的数据桥梁，也是 AI 自动化的关键难点。</li>
+        <li><strong>TaxCycle 是技术最完整的现有软件：</strong>被 Xero 收购，支持功能最多，与 Xero/Sage 深度集成，但依然是传统桌面软件范式，没有 AI 自动化能力。</li>
+        <li><strong>AI 文档识别技术已成熟：</strong>Dext、Hubdoc、Veryfi 等工具的 OCR 精准度已达 99%+，科目自动映射已可商用，但尚未与 T2 申报流程打通。</li>
+        <li><strong>加盟模式可行：</strong>H&R Block 加盟费低至 $2,500 CAD，但持续特许权使用费 12%；TaxAssist 为 $40,000 CAD，重点在于专业会计品牌背书。</li>
+      </ul>
+    </div>
+
+    <h3>完整 T2 自动化系统架构图（理想目标）</h3>
+    <div class="flow">
+      <div class="flow-step">客户上传文件<div class="flow-small">PDF / 扫描件 / CSV / Excel / 照片</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">AI OCR 识别<div class="flow-small">Dext / Veryfi / AWS Textract</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">GIFI 科目映射<div class="flow-small">AI 自动分类 + 人工复核</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">自动填 T2 表格<div class="flow-small">认证软件 API 或自建</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">生成报告<div class="flow-small">财务报告 + 税务摘要</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">电子提交 CRA<div class="flow-small">.cor 文件 → CIF 接口</div></div>
+    </div>
+
+    <div class="callout callout-red">
+      <strong>⚠️ 关键技术约束</strong>
+      CRA 的 T2 申报接口（.cor 文件格式）是通过<strong>保密协议渠道</strong>提供给认证软件商的，不公开。新产品要直连 CRA，必须完成年度 EFILE 认证申请，或与现有认证软件商合作（如嵌入 TaxCycle 的 API 层）。
+    </div>
+  </section>
+
+  <!-- SECTION 2: T2 SOFTWARE -->
+  <section id="t2-software">
+    <h2>T2 企业报税软件全景</h2>
+    <p class="section-intro">加拿大 T2 报税软件市场由少数大型软件商主导，均面向专业会计师事务所，均已获得 CRA EFILE 认证。以下为主流产品详细对比。</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">TaxCycle T2</div>
+            <div class="card-subtitle">Xero Software (Canada) Ltd.</div>
+          </div>
+          <span class="badge badge-green">功能最全</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-blue">Auto-fill</span>
+          <span class="tag badge-blue">EFILE</span>
+          <span class="tag badge-orange">Xero 集成</span>
+        </div>
+        <ul>
+          <li>支持所有 T2 附表（T2SCH89/T2054-T2059/T5013 等），认证功能最多</li>
+          <li>与 Xero、Sage 深度 GIFI 一键导入集成</li>
+          <li>T2 Auto-fill：自动从 CRA 拉取账户数据预填</li>
+          <li>支持 Attach-a-doc、Pre-validate、Submit E-Docs</li>
+          <li>支持 RC4649（国家别报告）、T1134/T1135/T106</li>
+          <li>附加模块 TaxFolder：电子签名 + 客户门户</li>
+          <li>附加模块 DoxCycle：文档管理系统</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">$2,752/用户/年</div>
+          <div class="label">含完整税务套件 + TaxFolder；联系销售获取精确报价</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">ProFile T2</div>
+            <div class="card-subtitle">Intuit Canada ULC</div>
+          </div>
+          <span class="badge badge-blue">主流选择</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-blue">Auto-fill</span>
+          <span class="tag badge-orange">QBO 集成</span>
+        </div>
+        <ul>
+          <li>Intuit 旗下专业报税软件，市场占有率高</li>
+          <li>支持 T1134/T1135/T106/T2SCH89/T2054/T5013</li>
+          <li>与 QuickBooks Online Accountant 深度集成（Books to Tax）</li>
+          <li>支持从多个竞品软件 carry-forward 历史数据</li>
+          <li>Attach-a-doc、Auto-fill、Submit E-Docs 全支持</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">联系 Intuit 报价</div>
+          <div class="label">1-800-452-9970</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Corporate Taxprep</div>
+            <div class="card-subtitle">Wolters Kluwer Canada</div>
+          </div>
+          <span class="badge badge-blue">大型事务所首选</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-blue">Auto-fill</span>
+        </div>
+        <ul>
+          <li>面向大型会计师事务所的企业级产品</li>
+          <li>支持 T1134/T1135/T106/RC4649/Submit E-Docs</li>
+          <li>CCH iFirm 生态集成（工作流、文档、账单）</li>
+          <li>T5013 合伙企业申报支持</li>
+          <li>AI 辅助税务研究（通过 CCH AnswerConnect）</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">联系 Wolters Kluwer 报价</div>
+          <div class="label">support.cch.ca</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">DT Max T2</div>
+            <div class="card-subtitle">Thomson Reuters DT</div>
+          </div>
+          <span class="badge badge-blue">中大型事务所</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-blue">Auto-fill</span>
+        </div>
+        <ul>
+          <li>Thomson Reuters 旗下，功能全面</li>
+          <li>支持 T1134/T1135/T106/T5013/Submit E-Docs</li>
+          <li>Checkpoint AI 辅助税务研究集成</li>
+          <li>支持数百个客户自动化批量处理</li>
+          <li>Attach-a-doc 和 Auto-fill 全支持</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">联系 Thomson Reuters 报价</div>
+          <div class="label">1-800-663-7829</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">QBO Accountant Pro Tax T2</div>
+            <div class="card-subtitle">Intuit Canada ULC</div>
+          </div>
+          <span class="badge badge-orange">云端 SaaS</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-blue">Auto-fill</span>
+          <span class="tag badge-orange">云端</span>
+        </div>
+        <ul>
+          <li>完全云端，无需安装，QBO Accountant 账户内使用</li>
+          <li>QBO Workpapers → Pro Tax 一键 GIFI 导入</li>
+          <li>支持 T1134/T1135/T106/Submit E-Docs</li>
+          <li>不支持魁北克 CO-17</li>
+          <li>年订阅或单次付费模式</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">$1,175/年 或 $390/次</div>
+          <div class="label">无限次申报 / 单次申报（OnePay）</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">TurboTax Business Incorporated</div>
+            <div class="card-subtitle">Intuit Canada ULC</div>
+          </div>
+          <span class="badge badge-orange">企业自用</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-red">功能较少</span>
+        </div>
+        <ul>
+          <li>面向企业自助申报，非专业会计师</li>
+          <li>功能相对简化：仅支持条码和 CIF</li>
+          <li>不支持 T1134/T1135/T106 等高级附表</li>
+          <li>桌面版 + 在线版两种形式</li>
+          <li>适合简单情况的小型企业</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">约 $279.99/年</div>
+          <div class="label">单企业使用，官网定价</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">CloudTax T2 Basic</div>
+            <div class="card-subtitle">CloudTax Inc.</div>
+          </div>
+          <span class="badge badge-green">新兴 SaaS</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-blue">Auto-fill</span>
+          <span class="tag badge-orange">云端</span>
+        </div>
+        <ul>
+          <li>纯云端 SaaS，面向小企业和简单 T2 申报</li>
+          <li>支持 CIF、Auto-fill、授权申请</li>
+          <li>有免费 Nil 申报版本</li>
+          <li>功能较基础，不支持复杂附表</li>
+          <li>目前无显著 AI 自动化特性</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">免费起 / 付费版</div>
+          <div class="label">Nil 申报免费；付费版价格未公开</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">CanTax T2 / CCH iFirm Taxprep</div>
+            <div class="card-subtitle">Wolters Kluwer Canada</div>
+          </div>
+          <span class="badge badge-blue">传统主流</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">✅ CRA 认证</span>
+          <span class="tag badge-blue">Auto-fill</span>
+        </div>
+        <ul>
+          <li>CanTax T2：Wolters Kluwer 传统产品线</li>
+          <li>CCH iFirm Taxprep：云端升级版，整合工作流</li>
+          <li>支持条码/CIF/Attach-a-doc/Auto-fill/T1135/T5013</li>
+          <li>CCH iFirm 生态系统（DMS、时间账单、工作流）</li>
+          <li>面向中大型加拿大会计师事务所</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">联系 Wolters Kluwer 报价</div>
+          <div class="label">support.cch.ca</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>主流 T2 软件功能对比矩阵</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>软件</th>
+            <th>部署形式</th>
+            <th>目标用户</th>
+            <th>CRA 认证</th>
+            <th>Auto-fill</th>
+            <th>T1134/T1135</th>
+            <th>T5013</th>
+            <th>Attach-a-doc</th>
+            <th>会计软件集成</th>
+            <th>魁北克 CO-17</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>TaxCycle T2</strong></td><td>桌面+云</td><td>专业会计师</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td>Xero / Sage</td><td class="check">✅</td></tr>
+          <tr><td><strong>ProFile T2</strong></td><td>桌面</td><td>专业会计师</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td>QuickBooks</td><td class="check">✅</td></tr>
+          <tr><td><strong>Corporate Taxprep</strong></td><td>桌面+云</td><td>大型事务所</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td>CCH iFirm</td><td class="check">✅</td></tr>
+          <tr><td><strong>DT Max T2</strong></td><td>桌面</td><td>中大型事务所</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td>限定</td><td class="check">✅</td></tr>
+          <tr><td><strong>QBO Pro Tax T2</strong></td><td>纯云端</td><td>会计师（QBO用户）</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td>QuickBooks</td><td class="cross">❌</td></tr>
+          <tr><td><strong>TurboTax Business</strong></td><td>桌面+云</td><td>企业自用</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td><td>无</td><td class="cross">❌</td></tr>
+          <tr><td><strong>CloudTax T2</strong></td><td>纯云端</td><td>小企业自用</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td><td>无</td><td class="cross">❌</td></tr>
+          <tr><td><strong>UFile T2</strong></td><td>桌面+云</td><td>专业+自用</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td><td>限定</td><td class="partial">部分</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-blue">
+      <strong>💡 关键发现</strong>
+      目前所有 T2 申报软件均面向会计师专业用户，界面复杂、学习成本高。没有任何软件提供 AI 自动化的"文件上传 → 自动填表"流程。TaxCycle T2 是功能最完整的，但其 API 并不对外开放用于二次集成。
+    </div>
+  </section>
+
+  <!-- SECTION 3: AI OCR -->
+  <section id="ai-ocr">
+    <h2>AI 文档识别与会计自动化工具</h2>
+    <p class="section-intro">这类工具负责从原始文件（收据、发票、银行流水）中提取结构化数据，并自动映射到会计科目，是 T2 自动化的上游核心组件。</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Dext（原 Receipt Bank）</div>
+            <div class="card-subtitle">dext.com/ca | 总部：多伦多</div>
+          </div>
+          <span class="badge badge-green">加拿大市场领导者</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">50K+ 加拿大 SMB</span>
+          <span class="tag badge-blue">99.9% 准确率</span>
+          <span class="tag badge-orange">API 可嵌入</span>
+        </div>
+        <ul>
+          <li>支持：手机拍照、PDF 上传、邮件转发、拖拽上传</li>
+          <li>银行对账单提取（Bank Statement Extraction）：PDF 银行流水</li>
+          <li>AI 自动分类：记忆供应商分类规则，自动映射科目</li>
+          <li>行项目提取（Line Item Extraction）：发票每行细节</li>
+          <li>供应商对账单核对（Supplier Statement Reconciliation）</li>
+          <li>36+ 会计软件集成：Xero、QuickBooks、Sage、PayPal</li>
+          <li>AI Assist 附加模块：学习记账决策，自动建议规则</li>
+          <li>"Extraction as a Service" API（2025 年 6 月上线）</li>
+          <li>加拿大本地化：CAD 定价、GST/HST 支持、法语支持</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">$31.50 CAD/月起</div>
+          <div class="label">企业版（250文档/月）；会计师事务所版从 $22.07/客户/月起</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Hubdoc</div>
+            <div class="card-subtitle">hubdoc.com | Xero 旗下</div>
+          </div>
+          <span class="badge badge-orange">Xero 生态</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">免费含 Xero</span>
+          <span class="tag badge-blue">自动抓取账单</span>
+        </div>
+        <ul>
+          <li>自动从银行、供应商网站抓取账单和收据</li>
+          <li>支持 PDF、图片、扫描件</li>
+          <li>自动提取日期、金额、供应商</li>
+          <li>与 Xero 深度集成（Xero 订阅内免费含 Hubdoc）</li>
+          <li>与 QuickBooks Online 也可集成</li>
+          <li>文件安全存储，可随时访问原始文件</li>
+          <li>AI 科目映射：基于规则 + 学习机制</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">含在 Xero 订阅中</div>
+          <div class="label">独立使用约 $12 USD/月起</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Veryfi</div>
+            <div class="card-subtitle">veryfi.com</div>
+          </div>
+          <span class="badge badge-blue">API 优先</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-blue">开放 API</span>
+          <span class="tag badge-green">行项目提取</span>
+          <span class="tag badge-orange">多语言</span>
+        </div>
+        <ul>
+          <li>API 优先设计：适合嵌入到自建系统</li>
+          <li>支持发票、收据、银行流水、W-9 等多种文档类型</li>
+          <li>行项目级别（Line Item）精准提取</li>
+          <li>多语言支持（包括法语，魁北克适用）</li>
+          <li>实时处理：API 响应通常 &lt;3 秒</li>
+          <li>支持 PDF、JPG、PNG、TIFF、HEIC 等格式</li>
+          <li>预建的 iOS/Android SDK 和 Web SDK</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">API 按用量计费</div>
+          <div class="label">免费层：100 文档/月；付费：$0.08/文档起</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Mindee</div>
+            <div class="card-subtitle">mindee.com</div>
+          </div>
+          <span class="badge badge-blue">开发者友好</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-blue">自定义模型</span>
+          <span class="tag badge-green">预建 API</span>
+        </div>
+        <ul>
+          <li>预建文档 API：发票、收据、银行流水、护照等</li>
+          <li>自定义文档 AI：可训练识别任意格式（如加拿大特定表格）</li>
+          <li>Invoice Splitter：自动分割多页 PDF</li>
+          <li>支持 PDF、JPEG、PNG、TIFF</li>
+          <li>REST API + Webhook + Python/Node/Java SDK</li>
+          <li>可识别 GST 注册号、HST 号等加拿大特定字段</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">免费 250 次/月起</div>
+          <div class="label">付费：从 $27 USD/月（500次）起</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">AutoEntry</div>
+            <div class="card-subtitle">autoentry.com | Sage 旗下</div>
+          </div>
+          <span class="badge badge-orange">Sage 生态</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-orange">Sage 集成</span>
+          <span class="tag badge-blue">OCR + 人工复核</span>
+        </div>
+        <ul>
+          <li>发票、收据、银行流水自动录入</li>
+          <li>人工 + AI 双重验证机制（部分人工复核）</li>
+          <li>与 Sage、QuickBooks、Xero 集成</li>
+          <li>支持批量上传和移动端拍照</li>
+          <li>按月费用 + 按文档数量计费</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">约 $12 USD/月起</div>
+          <div class="label">含一定配额；超出另计</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">AWS Textract</div>
+            <div class="card-subtitle">aws.amazon.com/textract</div>
+          </div>
+          <span class="badge badge-blue">云原生 OCR</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-blue">云 API</span>
+          <span class="tag badge-green">高并发</span>
+          <span class="tag badge-orange">自行集成</span>
+        </div>
+        <ul>
+          <li>企业级 OCR：文字、表格、表单字段提取</li>
+          <li>支持 PDF、PNG、JPEG、TIFF</li>
+          <li>无预建的会计科目映射，需自行构建分类逻辑</li>
+          <li>适合作为底层 OCR 引擎，上层叠加分类 AI</li>
+          <li>可与 AWS S3 + Lambda 构建全自动文件处理流水线</li>
+          <li>按页计费，大量文档成本有优势</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">$0.0015/页起（文字提取）</div>
+          <div class="label">表格和表单提取 $0.015/页；有免费层</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>AI 文档识别工具能力对比</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>工具</th>
+            <th>识别精度</th>
+            <th>支持格式</th>
+            <th>科目自动映射</th>
+            <th>银行流水</th>
+            <th>行项目提取</th>
+            <th>加拿大本地化</th>
+            <th>会计软件集成</th>
+            <th>开放 API</th>
+            <th>适合场景</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Dext</strong></td><td class="check">99.9%</td><td>PDF/图片/邮件</td><td class="check">✅ AI 学习</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅ CAD/GST</td><td>36+软件</td><td class="partial">合作伙伴</td><td>端对端会计自动化</td></tr>
+          <tr><td><strong>Hubdoc</strong></td><td class="partial">~95%</td><td>PDF/图片/自动抓取</td><td class="check">✅ 规则+学习</td><td class="check">✅</td><td class="partial">部分</td><td class="partial">部分</td><td>Xero/QBO</td><td class="cross">❌</td><td>Xero 用户文件收集</td></tr>
+          <tr><td><strong>Veryfi</strong></td><td class="check">高</td><td>PDF/JPG/PNG等</td><td class="partial">需配置</td><td class="check">✅</td><td class="check">✅</td><td class="partial">部分</td><td>通过 API</td><td class="check">✅ 完整</td><td>自建系统嵌入</td></tr>
+          <tr><td><strong>Mindee</strong></td><td class="check">高</td><td>PDF/JPEG/PNG/TIFF</td><td class="partial">需自建</td><td class="check">✅</td><td class="check">✅</td><td class="partial">可自定义</td><td>通过 API</td><td class="check">✅ 完整</td><td>定制文档 AI</td></tr>
+          <tr><td><strong>AutoEntry</strong></td><td class="partial">~95%</td><td>PDF/图片</td><td class="check">✅</td><td class="check">✅</td><td class="partial">部分</td><td class="partial">部分</td><td>Sage/QBO/Xero</td><td class="cross">❌</td><td>Sage 生态用户</td></tr>
+          <tr><td><strong>AWS Textract</strong></td><td class="check">高</td><td>PDF/PNG/JPEG/TIFF</td><td class="cross">❌ 需自建</td><td class="check">✅</td><td class="check">✅</td><td class="cross">需配置</td><td>通过 API</td><td class="check">✅ 完整</td><td>底层 OCR 引擎</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-green">
+      <strong>✅ 推荐组合方案</strong>
+      对于构建 T2 自动化工具，推荐：<strong>Dext API（Extraction as a Service）</strong> 作为文档识别引擎（99.9% 精度，已有加拿大场景优化），搭配自建的 <strong>GIFI 科目映射规则引擎</strong>（用 GPT/Claude API 做分类推理），再通过认证 T2 软件或自申请 CRA EFILE 认证打通最后一公里。
+    </div>
+  </section>
+
+  <!-- SECTION 4: CRA EFILE -->
+  <section id="cra-efile">
+    <h2>CRA 电子申报接口（EFILE / CIF）</h2>
+    <p class="section-intro">CRA 不开放公共 API，所有 T2 电子申报必须通过认证软件走 Corporation Internet Filing（CIF）通道。以下是官方一手技术要求。</p>
+
+    <div class="callout callout-red">
+      <strong>⚠️ 最重要约束：CRA 无公开 API</strong>
+      CRA 的 T2 申报接口规格通过<strong>保密协议渠道</strong>提供给认证软件商，技术规格不对外公开。外部系统必须通过认证软件作为中间层，或自行申请成为认证软件商（年度认证流程）。
+    </div>
+
+    <h3>T2 申报数据格式</h3>
+    <div class="cards" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr))">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">📄 .cor 文件</div>
+        <p style="font-size:13px">T2 电子申报的专有文件格式，由认证税务软件生成。包含申报表所有数据，通过 Corporation Internet Filing 上传至 CRA。不可手动构造，必须由认证软件生成。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">🏷️ GIFI 代码</div>
+        <p style="font-size:13px">General Index of Financial Information，CRA 标准化财务科目编码系统。每个科目有唯一数字代码（如现金=1001，应收账款=2100）。T2 申报的财务报表必须按 GIFI 代码结构化。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">📊 .gfi 文件</div>
+        <p style="font-size:13px">GIFI 数据交换格式，用于会计软件（QBO/Xero/Sage）与 T2 报税软件之间的数据传输。会计软件将试算表导出为 .gfi，T2 软件导入后自动映射到申报表科目。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">🔐 认证方式</div>
+        <p style="font-size:13px">两种身份认证：(1) <strong>Web Access Code (WAC)</strong>：单企业自行申报；(2) <strong>EFILE 号码 + 密码</strong>：税务专业人士代理多个企业申报。需先向 CRA 申请获取。</p>
+      </div>
+    </div>
+
+    <h3>申报流程图</h3>
+    <div class="flow">
+      <div class="flow-step">完成 T2 申报<div class="flow-small">在认证软件内</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">生成 .cor 文件<div class="flow-small">软件自动生成</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">输入 BN + WAC<div class="flow-small">或 EFILE 号+密码</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">上传至 CRA<div class="flow-small">Corporation Internet Filing</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">获得确认号<div class="flow-small">即时返回或错误提示</div></div>
+    </div>
+
+    <h3>CRA EFILE 软件认证流程（软件商视角）</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>阶段</th>
+            <th>时间节点</th>
+            <th>具体内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1. 申请加入</td><td>全年可申请</td><td>联系 CRA，签署保密协议（Confidentiality Agreement）</td></tr>
+          <tr><td>2. 获取草稿表格</td><td>约 12 月前</td><td>通过受控渠道查看新年度/修改的表格草稿</td></tr>
+          <tr><td>3. 获取测试数据包</td><td>每年 11 月中旬</td><td>CRA 提供标准测试申报数据，用于软件验证</td></tr>
+          <tr><td>4. 提交测试申报</td><td>12 月前</td><td>用测试数据验证软件，向 CRA 提交测试结果</td></tr>
+          <tr><td>5. 获得认证确认函</td><td>年底/次年初</td><td>CRA 审查通过，发送年度认证确认函</td></tr>
+          <tr><td>6. 标注认证上市</td><td>每年初申报季前</td><td>收到确认函后才可标注 "CRA EFILE Certified" 销售</td></tr>
+          <tr><td>7. 年度续期</td><td>每年 10 月底</td><td>CRA 发出续期邀请，认证不自动续期，每年必须重新完成</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>关键附表与特殊申报类型</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>附表/表格</th><th>用途</th><th>支持此功能的主要软件</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>T2SCH100</td><td>资产负债表（GIFI 代码）</td><td>所有认证软件</td></tr>
+          <tr><td>T2SCH125</td><td>利润表（GIFI 代码）</td><td>所有认证软件</td></tr>
+          <tr><td>T2SCH140/141</td><td>GIFI 汇总和附加信息</td><td>所有认证软件</td></tr>
+          <tr><td>T1134</td><td>境外关联企业信息申报</td><td>TaxCycle、ProFile、DT Max、Corporate Taxprep 等</td></tr>
+          <tr><td>T1135</td><td>境外资产申报（成本超 $100K）</td><td>TaxCycle、ProFile、DT Max 等</td></tr>
+          <tr><td>T106</td><td>关联方交易申报</td><td>TaxCycle、ProFile、Corporate Taxprep 等</td></tr>
+          <tr><td>T5013</td><td>合伙企业信息申报</td><td>TaxCycle、DT Max、Corporate Taxprep</td></tr>
+          <tr><td>T2SCH89</td><td>CCPC 小企业税率资本限额</td><td>TaxCycle、ProFile、Corporate Taxprep 等</td></tr>
+          <tr><td>RC4649</td><td>国家别报告（BEPS）</td><td>TaxCycle、AuraTax、FutureTax 等</td></tr>
+          <tr><td>UHT-2900</td><td>闲置住房税申报（2022 年起）</td><td>TaxCycle、AuraTax、TaxTron 等</td></tr>
+          <tr><td>T2 Auto-fill</td><td>从 CRA 拉取已知账户数据</td><td>TaxCycle、ProFile、QBO Pro Tax、AuraTax 等</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 5: ACCOUNTING LINK -->
+  <section id="accounting-link">
+    <h2>会计软件与 T2 数据流转</h2>
+    <p class="section-intro">加拿大主流会计软件均通过 GIFI 代码与 T2 报税软件对接，但各软件的集成深度差异显著。</p>
+
+    <h3>标准数据流转全流程</h3>
+    <div class="flow" style="flex-wrap:wrap; gap: 2px">
+      <div class="flow-step" style="min-width:100px">会计软件<div class="flow-small">QBO/Xero/Sage</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="min-width:100px">期末试算表<div class="flow-small">Trial Balance</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="min-width:100px">GIFI 科目映射<div class="flow-small">GL 代码 → GIFI 编码</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="min-width:100px">导出 .gfi 文件<div class="flow-small">或 API 直连</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="min-width:100px">T2 软件导入<div class="flow-small">TaxCycle/ProFile</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="min-width:100px">完成附表<div class="flow-small">CCA/递延税等</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="min-width:100px">电子提交 CRA<div class="flow-small">.cor → CIF</div></div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:24px">
+      <table>
+        <thead>
+          <tr>
+            <th>会计软件</th>
+            <th>GIFI 支持</th>
+            <th>与 T2 软件集成方式</th>
+            <th>集成对象</th>
+            <th>T2 联动程度</th>
+            <th>魁北克 CO-17</th>
+            <th>价格（加拿大）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>QuickBooks Online</strong></td>
+            <td class="check">✅ Workpapers</td>
+            <td>一键导入（Workpapers → Pro Tax）</td>
+            <td>QBO Pro Tax T2</td>
+            <td class="check">深度集成</td>
+            <td class="cross">❌</td>
+            <td>$20-$70+/月（按版本）</td>
+          </tr>
+          <tr>
+            <td><strong>Xero（含 Hubdoc）</strong></td>
+            <td class="check">✅ 默认开启</td>
+            <td>API 直连（Xero → TaxCycle 一键导入）</td>
+            <td>TaxCycle T2</td>
+            <td class="check">深度集成</td>
+            <td class="check">✅（通过 TaxCycle）</td>
+            <td>$20-$65+/月（按版本）</td>
+          </tr>
+          <tr>
+            <td><strong>Sage Business Cloud</strong></td>
+            <td class="check">✅ 默认含 GIFI 列</td>
+            <td>API 直连（Sage → TaxCycle 一键导入）</td>
+            <td>TaxCycle T2</td>
+            <td class="check">深度集成</td>
+            <td class="check">✅（通过 TaxCycle）</td>
+            <td>$15-$55+/月</td>
+          </tr>
+          <tr>
+            <td><strong>Sage 50</strong></td>
+            <td class="check">✅ 手动导出</td>
+            <td>手动导出 .gfi 文件 → 导入 T2 软件</td>
+            <td>TaxCycle、ProFile 等</td>
+            <td class="partial">半自动</td>
+            <td class="check">✅</td>
+            <td>$60-$160+/月</td>
+          </tr>
+          <tr>
+            <td><strong>FreshBooks</strong></td>
+            <td class="cross">❌</td>
+            <td>需手动导出报表</td>
+            <td>无直接集成</td>
+            <td class="cross">无</td>
+            <td class="cross">❌</td>
+            <td>$17-$55+/月</td>
+          </tr>
+          <tr>
+            <td><strong>Wave Accounting</strong></td>
+            <td class="cross">❌</td>
+            <td>无 T2 联动，需手动导出 Excel</td>
+            <td>无集成</td>
+            <td class="cross">无</td>
+            <td class="cross">❌</td>
+            <td>免费（加拿大）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-orange">
+      <strong>⚠️ 关键摩擦点（现有流程的痛点）</strong>
+      即便有 GIFI 集成，以下内容仍需会计师人工处理：(1) GIFI 映射准确性核查（错误映射导致申报错误）；(2) T2 附表的税务调整项（资本成本减免 CCA、递延所得税、RS&DE 科研抵免等）；(3) 魁北克省 CO-17 必须单独提交至 Revenu Québec。这些痛点正是 AI 工具的切入机会。
+    </div>
+  </section>
+
+  <!-- SECTION 6: PRACTICE MGMT -->
+  <section id="practice-mgmt">
+    <h2>税务实务管理 SaaS 平台</h2>
+    <p class="section-intro">这类平台负责会计师事务所的客户管理、文档收集、工作流、电子签名和账单等全流程，是连接客户与报税软件的中间层。</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">TaxDome</div>
+            <div class="card-subtitle">taxdome.com | 北美市场领导者</div>
+          </div>
+          <span class="badge badge-green">功能最全</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">4.7/5 评分</span>
+          <span class="tag badge-blue">7600+ 评论</span>
+          <span class="tag badge-orange">AI 文档</span>
+        </div>
+        <ul>
+          <li>CRM：统一客户信息管理</li>
+          <li>无限云端文档存储 + AI 智能文档工作流</li>
+          <li>白标客户门户 + 移动 App（App Store 前 100）</li>
+          <li>电子签名（含 KBA 知识验证，$1.25/次）</li>
+          <li>可视化工作流 Pipeline：自动任务分配和提醒</li>
+          <li>时间追踪 + 账单 + Stripe 集成付款</li>
+          <li>SMS/邮件/站内聊天统一沟通中心</li>
+          <li>AI 驱动报告（发票、时间条目、任务）</li>
+          <li>2024 年：每团队成员节省 40 小时/月行政工作</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">$800–$1,200/用户/年</div>
+          <div class="label">Essentials $800 / Pro $1,000 / Business $1,200</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Canopy</div>
+            <div class="card-subtitle">canopytax.com</div>
+          </div>
+          <span class="badge badge-blue">AI 功能最强</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-blue">模块化</span>
+          <span class="tag badge-green">AI 文件分类</span>
+          <span class="tag badge-orange">App 评分 4.9</span>
+        </div>
+        <ul>
+          <li>客户门户：手机拍照直传、Dropbox/Google Drive 集成</li>
+          <li>AI 文件分类：自动识别文件类型（速度提升 30%）</li>
+          <li>AI 数据提取：预填充客户表格</li>
+          <li>AI 缺失文件检测：对比往年识别未上传文件</li>
+          <li>无限电子签名（含在文档管理许可证中）</li>
+          <li>AI 自动放置签名字段</li>
+          <li>内置 PDF 编辑器、版本控制</li>
+          <li>与 Drake/Lacerte/ProSeries/UltraTax 深度集成</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">$60–$88/用户/月起</div>
+          <div class="label">Starter $60 / Essentials $88；模块化按需购买</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">TaxFolder（TaxCycle 附加模块）</div>
+            <div class="card-subtitle">taxcycle.com | 加拿大专属</div>
+          </div>
+          <span class="badge badge-green">加拿大本土</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-green">加拿大服务器</span>
+          <span class="tag badge-blue">TaxCycle 集成</span>
+        </div>
+        <ul>
+          <li>与 TaxCycle 深度集成，直接在 TaxCycle 内发送签名请求</li>
+          <li>每许可证 250 个客户的无限电子签名</li>
+          <li>客户无需注册账户即可签署文件</li>
+          <li>双因子验证：手机末四位 + 短信验证码</li>
+          <li>文件三分类：我的文件 / 待签名 / 会计师文件</li>
+          <li>数据存储：加拿大境内（Microsoft Azure + AWS）</li>
+          <li>256 位 AES 加密 + 完整审计追踪</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">$375/用户（独立）</div>
+          <div class="label">或含在 TaxCycle 完整套件 $2,752/用户中</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Karbon</div>
+            <div class="card-subtitle">karbonhq.com</div>
+          </div>
+          <span class="badge badge-blue">工作流最强</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-blue">邮件整合</span>
+          <span class="tag badge-orange">团队协作</span>
+        </div>
+        <ul>
+          <li>Triage 收件箱：所有邮件变为可操作任务</li>
+          <li>数百个预建工作流模板</li>
+          <li>Work Scheduler：定期工作自动排期</li>
+          <li>时间 + 预算追踪、盈利能力分析</li>
+          <li>客户档案：完整历史邮件、笔记、任务联结</li>
+          <li>2025 年 7 月推出客户门户 "Karbon for Clients"</li>
+          <li>Billing 模块：Stripe 驱动，2024 年推出</li>
+          <li>深度集成：Ignition、Xero、QuickBooks</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">按规模定价，联系销售</div>
+          <div class="label">约 $59-$89/用户/月（参考价）</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Ignition（Practice Ignition）</div>
+            <div class="card-subtitle">ignitionapp.com</div>
+          </div>
+          <span class="badge badge-orange">提案+收款</span>
+        </div>
+        <div class="tags">
+          <span class="tag badge-orange">参与信</span>
+          <span class="tag badge-green">自动收款</span>
+        </div>
+        <ul>
+          <li>专业服务提案：AI 定价建议 + 模板库</li>
+          <li>参与信（Engagement Letter）管理和批量发送</li>
+          <li>客户签署提案时即可预授权付款</li>
+          <li>签名后自动账单 + 付款处理（消除应收账款）</li>
+          <li>与 Xero、QuickBooks、Karbon、Gusto 集成</li>
+          <li>主要解决"前端参与"（提案→合同→首付款）</li>
+        </ul>
+        <div class="price-tag">
+          <div class="price">约 $49/月起</div>
+          <div class="label">按客户数和功能分级</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>实务管理平台功能对比矩阵</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>功能</th>
+            <th>TaxDome</th>
+            <th>Canopy</th>
+            <th>TaxFolder</th>
+            <th>Karbon</th>
+            <th>Ignition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>加拿大 T2 申报</strong></td><td class="cross">❌</td><td class="cross">❌</td><td class="check">✅ 原生</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td><strong>客户门户</strong></td><td class="check">✅ 白标</td><td class="check">✅ 完整</td><td class="check">✅</td><td class="check">✅ 2025</td><td class="partial">付款门户</td></tr>
+          <tr><td><strong>文档管理</strong></td><td class="check">✅ 无限+AI</td><td class="check">✅ 无限+AI</td><td class="check">✅ DoxCycle</td><td class="partial">基础</td><td class="cross">❌</td></tr>
+          <tr><td><strong>电子签名</strong></td><td class="check">✅ 含KBA</td><td class="check">✅ 无限</td><td class="check">✅ 加拿大服务器</td><td class="cross">❌</td><td class="check">✅</td></tr>
+          <tr><td><strong>工作流自动化</strong></td><td class="check">✅ Pipeline</td><td class="check">✅ 完整</td><td class="partial">基础</td><td class="check">✅ 最强</td><td class="partial">基础</td></tr>
+          <tr><td><strong>时间追踪/账单</strong></td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="check">✅ 2024</td><td class="check">✅ 核心</td></tr>
+          <tr><td><strong>CRM</strong></td><td class="check">✅</td><td class="check">✅</td><td class="partial">基础</td><td class="check">✅</td><td class="cross">❌</td></tr>
+          <tr><td><strong>AI 文件处理</strong></td><td class="check">✅ 2024</td><td class="check">✅ 最强</td><td class="cross">❌</td><td class="partial">部分</td><td class="cross">❌</td></tr>
+          <tr><td><strong>提案/参与信</strong></td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="partial">计划中</td><td class="check">✅ 核心</td></tr>
+          <tr><td><strong>适合规模</strong></td><td>所有规模</td><td>中小事务所</td><td>加拿大专属</td><td>中大型</td><td>所有规模</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 7: FRANCHISE -->
+  <section id="franchise">
+    <h2>加拿大税务连锁加盟模式</h2>
+    <p class="section-intro">加拿大税务加盟市场由 H&R Block 和 Liberty Tax 主导，近年来出现了面向专业会计师的新兴加盟品牌（TaxAssist、Padgett）。</p>
+
+    <div class="franchise-compare">
+      <div class="franchise-card">
+        <div class="franchise-head">
+          <h4>H&R Block Canada</h4>
+          <span>规模最大 · 300+ 加盟店 · 950+ 总门店</span>
+        </div>
+        <div class="franchise-body">
+          <div class="franchise-row"><span>初始加盟费</span><span class="val">$2,500 CAD</span></div>
+          <div class="franchise-row"><span>总投资范围</span><span class="val">$25K–$110K CAD</span></div>
+          <div class="franchise-row"><span>现金要求</span><span class="val">$10,000 CAD</span></div>
+          <div class="franchise-row"><span>特许权使用费</span><span class="val">12% 营收</span></div>
+          <div class="franchise-row"><span>广告费</span><span class="val">含在品牌支持中</span></div>
+          <div class="franchise-row"><span>加拿大门店数</span><span class="val">953–1,187</span></div>
+          <div class="franchise-row"><span>软件支持</span><span class="val">专有报税软件</span></div>
+          <div class="franchise-row"><span>培训</span><span class="val">H&R Block Tax Academy®</span></div>
+        </div>
+      </div>
+
+      <div class="franchise-card">
+        <div class="franchise-head">
+          <h4>Liberty Tax Canada</h4>
+          <span>北美 2,500+ 加盟商 · 快速扩张</span>
+        </div>
+        <div class="franchise-body">
+          <div class="franchise-row"><span>初始加盟费</span><span class="val">~$55K CAD ($40K USD)</span></div>
+          <div class="franchise-row"><span>总投资范围</span><span class="val">~$62K–$79K CAD</span></div>
+          <div class="franchise-row"><span>流动资金</span><span class="val">$50K USD 最低</span></div>
+          <div class="franchise-row"><span>特许权使用费</span><span class="val">14% 营收</span></div>
+          <div class="franchise-row"><span>广告费</span><span class="val">5% 营收</span></div>
+          <div class="franchise-row"><span>开业速度</span><span class="val">60-90 天内</span></div>
+          <div class="franchise-row"><span>软件支持</span><span class="val">同类最佳税务软件</span></div>
+          <div class="franchise-row"><span>特色服务</span><span class="val">税务+信用修复+记账+贷款</span></div>
+        </div>
+      </div>
+
+      <div class="franchise-card">
+        <div class="franchise-head">
+          <h4>TaxAssist Accountants Canada</h4>
+          <span>英国品牌 · 2021 年进入加拿大 · 6 个门店（快速扩张）</span>
+        </div>
+        <div class="franchise-body">
+          <div class="franchise-row"><span>初始加盟费</span><span class="val">$40,000 CAD（含税）</span></div>
+          <div class="franchise-row"><span>流动资金</span><span class="val">$80,000 CAD</span></div>
+          <div class="franchise-row"><span>总投资</span><span class="val">$80K–$200K CAD</span></div>
+          <div class="franchise-row"><span>银行融资</span><span class="val">可融资至 70%</span></div>
+          <div class="franchise-row"><span>退伍军人折扣</span><span class="val">加盟费 9 折</span></div>
+          <div class="franchise-row"><span>准备期</span><span class="val">约 3 个月（签约到开业）</span></div>
+          <div class="franchise-row"><span>可用领地</span><span class="val">250+ 待开发领地</span></div>
+          <div class="franchise-row"><span>定位</span><span class="val">专业会计师 + 全年服务</span></div>
+        </div>
+      </div>
+
+      <div class="franchise-card">
+        <div class="franchise-head">
+          <h4>Padgett Business Services Canada</h4>
+          <span>经营近 60 年 · 会计+税务+小企业</span>
+        </div>
+        <div class="franchise-body">
+          <div class="franchise-row"><span>加盟费+培训费</span><span class="val">$37,500 CAD</span></div>
+          <div class="franchise-row"><span>设备+营运资金</span><span class="val">$10K–$15K CAD</span></div>
+          <div class="franchise-row"><span>总投资</span><span class="val">约 $50,000 CAD</span></div>
+          <div class="franchise-row"><span>流动资金</span><span class="val">$47,500 CAD</span></div>
+          <div class="franchise-row"><span>融资支持</span><span class="val">不提供，须全额前付</span></div>
+          <div class="franchise-row"><span>软件（会计）</span><span class="val">QuickBooks Online（国家账户）</span></div>
+          <div class="franchise-row"><span>软件（税务）</span><span class="val">Thomson Reuters（优惠价）</span></div>
+          <div class="franchise-row"><span>第一年营销</span><span class="val">$4,000 CAD 支持</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>加盟模式对比汇总</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>品牌</th>
+            <th>初始加盟费</th>
+            <th>总投资</th>
+            <th>持续特许费</th>
+            <th>目标加盟商</th>
+            <th>服务类型</th>
+            <th>加拿大规模</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>H&R Block</strong></td><td>$2,500 CAD</td><td>$25K–$110K</td><td>12% 营收</td><td>零售运营者</td><td>个人税为主</td><td>300+ 加盟店</td></tr>
+          <tr><td><strong>Liberty Tax</strong></td><td>~$55K CAD</td><td>~$62K–$79K</td><td>14%+5%广告</td><td>零售运营者</td><td>税务+金融服务</td><td>北美 2,500+</td></tr>
+          <tr><td><strong>TaxAssist</strong></td><td>$40K CAD</td><td>$80K–$200K</td><td>未披露</td><td>会计专业人士</td><td>会计+税务+顾问</td><td>6 个（扩张中）</td></tr>
+          <tr><td><strong>Padgett</strong></td><td>$37.5K CAD</td><td>~$50K</td><td>未披露</td><td>会计专业人士</td><td>小企业会计+税务</td><td>运营近 60 年</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Google Maps 品牌曝光策略</h3>
+    <div class="cards" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-top: 16px">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">📍 每店独立 GBP 档案</div>
+        <p style="font-size:13px">每个实体地址必须有独立的 Google Business Profile 列表，避免重复档案分散评论和排名权重。每档包含完整的店名、地址、电话、营业时间、类别、图片、服务列表。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">🔧 批量管理工具</div>
+        <p style="font-size:13px">10+ 门店必须使用 <strong>Google Business Profile 批量验证</strong>。50+ 门店使用 <strong>GBP API</strong> 程序化管理所有位置（更新 NAP 数据、营业时间、帖子）。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">🏢 权限分层管理</div>
+        <p style="font-size:13px">总部掌控账号所有权，向加盟商分配"位置管理员"权限（而非完全控制权）。总部负责品牌名、类别、URL；加盟商负责营业时间、本地图片、评论回复。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">📅 报税季集中运营</div>
+        <p style="font-size:13px">2–4 月是报税高峰期，GBP 帖子、优惠信息、新服务公告应在 1 月前集中更新。本地评论中"快速退税"、"当日完成"等关键词对搜索排名有正向影响。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">⭐ 声誉管理</div>
+        <p style="font-size:13px">建立统一的评论回复规范和响应时间标准。单个门店负面评论影响整体品牌形象，需中央监控 + 本地快速响应的混合模式。</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">🔑 NAP 一致性</div>
+        <p style="font-size:13px">Name、Address、Phone 在所有平台（GBP、官网、Yelp、Yellow Pages）必须完全一致，这是本地 SEO 最关键要素。每个门店应有独立的本地落地页（URL）。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: OPPORTUNITY -->
+  <section id="opportunity">
+    <h2>市场空白与创业机会分析</h2>
+    <p class="section-intro">基于以上调研，以下是构建加拿大 T2 AI 自动化报税工具和税务加盟品牌的核心机会与挑战分析。</p>
+
+    <h3>现有市场痛点（Pain Points）</h3>
+    <div class="opportunity-grid">
+      <div class="opp-card opp-pain">
+        <h4>😤 会计师和小企业的痛点</h4>
+        <ul style="padding-left:18px; font-size:13px; line-height:1.8">
+          <li>文件收集耗时：客户提交材料格式混乱，收据/流水分散</li>
+          <li>GIFI 映射人工审核：映射错误风险高，耗费大量时间</li>
+          <li>T2 附表复杂：CCA、递延税等无法从会计软件自动生成</li>
+          <li>无面向小企业的端到端工具：TurboTax 功能太弱，专业软件太复杂</li>
+          <li>多平台割裂：OCR 工具、会计软件、报税软件三者无法无缝流转</li>
+          <li>CRA 强制电子申报：2023 年起 100% 强制，需求明确</li>
+          <li>定时催件无系统化：会计师手动追客户提交材料</li>
+        </ul>
+      </div>
+      <div class="opp-card opp-solution">
+        <h4>✅ AI 工具的解决方案空间</h4>
+        <ul style="padding-left:18px; font-size:13px; line-height:1.8">
+          <li>智能客户门户：定时发送材料提交提醒，支持多格式上传</li>
+          <li>AI OCR：自动识别收据、发票、银行流水（Dext API 或 Veryfi）</li>
+          <li>AI GIFI 映射：LLM 驱动的科目自动分类，减少人工干预</li>
+          <li>T2 表格预填：基于识别数据自动完成 T2 标准附表</li>
+          <li>AI 数据报告：生成财务健康报告、税务摘要、异常提示</li>
+          <li>复核工作台：会计师审核 AI 填写结果，一键提交 CRA</li>
+          <li>CRA EFILE 集成：通过认证或集成 TaxCycle 完成最终提交</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>竞争格局分析</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>细分领域</th>
+            <th>现有竞争者</th>
+            <th>空白程度</th>
+            <th>进入难度</th>
+            <th>机会评估</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AI T2 端到端自动化</strong></td>
+            <td>几乎无（TaxGPT 仅限美国 T2 代理；CloudTax 功能弱）</td>
+            <td class="check" style="font-weight:700">🟢 高空白</td>
+            <td>高（需 CRA 认证）</td>
+            <td class="check">⭐⭐⭐⭐⭐ 核心机会</td>
+          </tr>
+          <tr>
+            <td><strong>AI 文档识别（收据/流水）</strong></td>
+            <td>Dext、Hubdoc、Veryfi 等已成熟</td>
+            <td class="cross" style="font-weight:700">🔴 低空白</td>
+            <td>高（成熟竞品）</td>
+            <td class="partial">⭐⭐ 建议 API 集成，不自建</td>
+          </tr>
+          <tr>
+            <td><strong>GIFI 科目 AI 映射</strong></td>
+            <td>无专门工具（现有工具都是手动或规则映射）</td>
+            <td class="check" style="font-weight:700">🟢 高空白</td>
+            <td>中（LLM 可实现）</td>
+            <td class="check">⭐⭐⭐⭐ 关键差异化功能</td>
+          </tr>
+          <tr>
+            <td><strong>T2 实务管理 SaaS（加拿大版）</strong></td>
+            <td>TaxDome/Canopy（美国为主），TaxFolder（仅签名）</td>
+            <td class="partial" style="font-weight:700">🟡 中等空白</td>
+            <td>中</td>
+            <td class="check">⭐⭐⭐ 可作为切入点</td>
+          </tr>
+          <tr>
+            <td><strong>税务加盟品牌</strong></td>
+            <td>H&R Block、Liberty Tax、TaxAssist 等</td>
+            <td class="partial" style="font-weight:700">🟡 中等空白</td>
+            <td>中（品牌建立需时间）</td>
+            <td class="partial">⭐⭐⭐ 技术赋能差异化</td>
+          </tr>
+          <tr>
+            <td><strong>GST/HST AI 自动化</strong></td>
+            <td>Sphere（a16z 领投 $21M Series A，YC 支持）</td>
+            <td class="cross" style="font-weight:700">🔴 有强竞品</td>
+            <td>高</td>
+            <td class="cross">⭐ 建议回避</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>推荐产品路线图</h3>
+    <div class="highlight-box">
+      <h3>🚀 战略建议：分阶段构建 T2 AI 自动化平台</h3>
+      <ul>
+        <li><strong>Phase 1（0-6 个月）：客户门户 + 文档收集</strong><br>
+        构建一个面向会计师事务所的客户文件收集平台：定时提醒、多格式上传（PDF/扫描/CSV/Excel）、Dext API 集成做 OCR 识别。无需 CRA 认证，快速验证需求。
+        </li>
+        <li><strong>Phase 2（6-12 个月）：AI GIFI 映射 + T2 预填</strong><br>
+        用 LLM（Claude/GPT）构建 GIFI 科目自动映射引擎，将识别出的交易数据映射到标准 GIFI 代码，自动预填 T2SCH100/125/140。同时申请 CRA EFILE 认证。
+        </li>
+        <li><strong>Phase 3（12-18 个月）：CRA 直提 + 完整 T2 附表</strong><br>
+        完成 CRA EFILE 认证后，实现 .cor 文件生成和直接电子提交。支持 T2 核心附表（SCH1 净收入调整、SCH7 小企业税率、CCA 计算等）。
+        </li>
+        <li><strong>Phase 4（18+ 个月）：税务联盟品牌赋能</strong><br>
+        以 AI 工具作为核心差异化，向加盟的会计师事务所提供技术平台，构建"技术赋能的税务联盟"品牌，Google Maps 体系化运营。
+        </li>
+      </ul>
+    </div>
+
+    <h3>关键风险与应对</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>风险</th><th>严重程度</th><th>应对策略</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CRA EFILE 认证周期长（约 1 年）</td>
+            <td class="partial">中高</td>
+            <td>初期与 TaxCycle 或 ProFile 合作，作为其 API 层嵌入，而非直接对接 CRA</td>
+          </tr>
+          <tr>
+            <td>AI GIFI 映射错误导致申报错误</td>
+            <td class="danger">高</td>
+            <td>所有 AI 映射必须经过会计师人工复核确认，不允许全自动提交；建立错误责任说明</td>
+          </tr>
+          <tr>
+            <td>魁北克省 CO-17 单独提交体系</td>
+            <td class="partial">中</td>
+            <td>初期聚焦联邦 T2，魁北克支持作为后续扩展</td>
+          </tr>
+          <tr>
+            <td>客户数据隐私（PIPEDA/PHIPA）</td>
+            <td class="danger">高</td>
+            <td>数据存储在加拿大境内服务器；SOC 2 Type II 认证；明确的数据处理协议</td>
+          </tr>
+          <tr>
+            <td>大型软件商（Intuit/Wolters Kluwer）模仿</td>
+            <td class="partial">中</td>
+            <td>专注小企业自动化（大厂面向专业会计师，市场定位不同）；快速积累用户数据优势</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-green">
+      <strong>💡 最终结论</strong>
+      加拿大 T2 企业报税市场存在明确的 AI 自动化空白：现有软件均面向专业会计师、无 AI 自动化能力；AI 文档识别技术已成熟可商用；CRA 2023 年起强制电子申报释放了大量数字化需求。核心壁垒是 <strong>CRA EFILE 认证</strong>（建议通过合作绕过初期障碍）和 <strong>GIFI 科目映射准确性</strong>（人工复核作为质量保障）。加盟品牌策略可与 AI 工具协同，以技术平台赋能加盟商形成差异化竞争优势。
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <strong>加拿大 T2 企业报税市场深度调研报告</strong><br>
+  数据来源：CRA 官网、Dext 官网、TaxCycle 官网、各加盟品牌官网一手信息 · 报告日期：2026 年 6 月 · 仅供内部参考
+</footer>
+
+</body>
+</html>
