@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxalliance — 投资人简报</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #e8731a;
+    --accent2: #2a7d4f;
+    --accent3: #7d3a9e;
+    --light-bg: #f7f9fc;
+    --border: #dde3ec;
+    --text: #1e2533;
+    --muted: #667185;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--text); background: #fff; line-height: 1.7; font-size: 15px;
+  }
+
+  .cover {
+    background: linear-gradient(135deg, #0f2540 0%, #1a3a5c 50%, #1e5799 100%);
+    color: #fff; padding: 64px 48px; position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: ""; position: absolute; right: -60px; top: -60px;
+    width: 320px; height: 320px; border-radius: 50%; background: rgba(255,255,255,0.05);
+  }
+  .cover-label { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+  .cover h1 { font-size: 34px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+  .cover h1 span { color: #f5a843; }
+  .cover-sub { font-size: 17px; color: rgba(255,255,255,0.75); margin-bottom: 32px; max-width: 620px; }
+  .cover-meta { display: flex; gap: 36px; flex-wrap: wrap; }
+  .cover-meta-item { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .cover-meta-item strong { display: block; color: #fff; font-size: 15px; }
+
+  .section { padding: 48px; border-bottom: 1px solid var(--border); }
+  .section:nth-child(even) { background: var(--light-bg); }
+  .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+  .section h2 { font-size: 26px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+  .section-desc { color: var(--muted); font-size: 14px; max-width: 680px; margin-bottom: 28px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 8px; }
+  .stat-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 22px; text-align: center; }
+  .stat-card .big { font-size: 26px; font-weight: 800; color: var(--accent); }
+  .stat-card .sub { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .pain-card { background: #fff; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 20px 24px; }
+  .pain-card h4 { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .pain-card p { font-size: 13.5px; color: var(--muted); }
+
+  .tri-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .tri-card { border-radius: 12px; padding: 26px; border: 1px solid var(--border); background: #fff; }
+  .tri-card.a { border-top: 4px solid var(--primary); }
+  .tri-card.b { border-top: 4px solid var(--accent2); }
+  .tri-card.c { border-top: 4px solid var(--accent3); }
+  .tri-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 4px; margin-bottom: 12px; color: #fff; }
+  .tri-card.a .tri-tag { background: var(--primary); }
+  .tri-card.b .tri-tag { background: var(--accent2); }
+  .tri-card.c .tri-tag { background: var(--accent3); }
+  .tri-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+  .tri-card p { font-size: 13.5px; color: var(--muted); }
+  .tri-card ul { margin-top: 12px; padding-left: 18px; }
+  .tri-card ul li { font-size: 13.5px; color: var(--muted); margin-bottom: 4px; }
+
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; font-size: 13.5px; }
+  th { background: var(--primary); color: #fff; text-align: left; padding: 10px 14px; font-weight: 600; }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.hl { color: var(--accent); font-weight: 700; }
+  .table-note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, #fff5eb, #fff); border: 1px solid #f5c896;
+    border-radius: 10px; padding: 20px 26px; margin-top: 22px;
+  }
+  .highlight-box h4 { font-size: 15px; font-weight: 700; color: #b5530a; margin-bottom: 5px; }
+  .highlight-box p { font-size: 13.5px; color: #7d5030; }
+  .highlight-box.green { background: linear-gradient(135deg, #eef7f1, #fff); border-color: #a8d5bc; }
+  .highlight-box.green h4 { color: var(--accent2); }
+  .highlight-box.green p { color: #3d6b50; }
+
+  .moat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .moat-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+  .moat-card .emoji { font-size: 24px; margin-bottom: 6px; }
+  .moat-card h4 { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .moat-card p { font-size: 13px; color: var(--muted); }
+
+  .use-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
+  .use-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 22px; text-align: center; }
+  .use-card .pct { font-size: 30px; font-weight: 800; color: var(--primary); }
+  .use-card .label { font-size: 14px; font-weight: 700; margin: 4px 0; }
+  .use-card .sub { font-size: 12px; color: var(--muted); }
+
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .team-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 22px; }
+  .team-card h4 { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .team-card p { font-size: 13px; color: var(--muted); }
+
+  .footer { padding: 32px 48px; text-align: center; color: rgba(255,255,255,0.7); font-size: 12.5px; background: var(--primary); }
+  .footer strong { color: #fff; display: block; margin-bottom: 4px; font-size: 14px; }
+
+  @media (max-width: 640px) {
+    .cover, .section { padding-left: 24px; padding-right: 24px; }
+  }
+
+  @page { size: A4; margin: 10mm 9mm; }
+  @media print {
+    body { font-size: 13px; }
+    .cover { padding: 44px 36px; }
+    .section { padding: 30px 28px; }
+    table, .tri-card, .stat-card, .pain-card, .moat-card, .use-card, .team-card, .highlight-box { break-inside: avoid; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .tri-grid { grid-template-columns: repeat(3, 1fr); }
+    .tri-card { padding: 18px; }
+    .tri-card ul { padding-left: 14px; }
+    .moat-grid, .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .use-grid { grid-template-columns: repeat(3, 1fr); }
+    .pain-grid { grid-template-columns: repeat(2, 1fr); }
+    .section h2 { break-after: avoid; }
+    .footer { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-label">投资人简报 · Pre-Seed · 保密</div>
+  <h1>Taxalliance<br><span>AI 驱动的加拿大企业报税自动化平台</span></h1>
+  <div class="cover-sub">用 AI + 人工把关，把小企业 T2 报税从「数天手工录入」变成「数分钟复核确认」；以 SaaS 订阅 + 连锁加盟双通道规模化。</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>Pre-Seed CA$100k–150k</strong>本轮融资目标</div>
+    <div class="cover-meta-item"><strong>6 个月</strong>资金到位后至首笔订阅收入</div>
+    <div class="cover-meta-item"><strong>加拿大 T2 企业所得税</strong>目标市场</div>
+    <div class="cover-meta-item"><strong>2026 年 7 月</strong>文件日期</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">01 · Problem</div>
+  <h2>小企业报税是一条没有被自动化的流水线</h2>
+  <p class="section-desc">加拿大所有公司每年必须提交 T2 企业所得税申报，且自 2023 税务年度起 100% 强制电子申报。但从客户交材料到最终提交，中间几乎全是人工。</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <h4>材料收集混乱</h4>
+      <p>收据、发票、银行流水散落在邮箱和手机里，会计师靠人肉催件，报税季平均每户来回沟通数周。</p>
+    </div>
+    <div class="pain-card">
+      <h4>手工录入与科目分类</h4>
+      <p>每笔交易要人工录入记账系统并归类到税务科目，一户小企业动辄数百笔，错误直接导致错报。</p>
+    </div>
+    <div class="pain-card">
+      <h4>工具链割裂</h4>
+      <p>文档识别、记账软件、报税软件三个环节互不打通；现有专业报税软件全部面向会计师、无 AI 自动化、学习成本高。</p>
+    </div>
+    <div class="pain-card">
+      <h4>供给端短缺</h4>
+      <p>会计师在报税季超负荷，小事务所接不动增量客户；小企业端服务价格连年上涨。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">02 · Why Now</div>
+  <h2>三个时点红利在同一年叠加</h2>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="big">100%</div><div class="sub">T2 强制电子申报（2023 税务年度起），数字化需求由政策直接释放</div></div>
+    <div class="stat-card"><div class="big">99%+</div><div class="sub">商用 OCR 文档识别精度已成熟，可 API 化嵌入，无需自研底层</div></div>
+    <div class="stat-card"><div class="big">≈ 0</div><div class="sub">面向小企业的端到端 T2 AI 自动化产品——经全景调研（40+ 款软件），该细分为空白</div></div>
+    <div class="stat-card"><div class="big">US$21M</div><div class="sub">邻近赛道验证：美国税务自动化公司 Sphere 获 a16z 领投 A 轮，taxtech 资本活跃</div></div>
+  </div>
+  <div class="highlight-box">
+    <h4>🎯 市场空间（估算）</h4>
+    <p>加拿大每年 T2 申报量以百万计，小企业报税服务单价 CA$800–2,500/户；仅小微企业报税服务市场即为十亿加元级。我们切入的软件层（SaaS 订阅 + 加盟平台费）目标是其中会计师事务所与连锁门店的工具预算，属于从人工服务费向软件费迁移的增量市场。详细 TAM/SAM/SOM 测算见附录（NDA 后提供）。</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">03 · Solution</div>
+  <h2>一个平台，三条业务线</h2>
+  <p class="section-desc">客户拍照上传材料，AI 完成识别、记账录入和报税表预填，会计师只做最终复核与提交——AI 处理约 80% 的机械工作，人只做判断。</p>
+  <div class="tri-grid">
+    <div class="tri-card a">
+      <span class="tri-tag">业务线 1</span>
+      <h3>报税自动化 SaaS</h3>
+      <p>面向会计师事务所按客户数订阅，端到端覆盖：</p>
+      <ul>
+        <li>智能客户门户：自动催件、多格式上传</li>
+        <li>AI 识别 + 自动录入主流记账软件</li>
+        <li>专有 AI 税务科目映射引擎（核心壁垒）</li>
+        <li>T2 申报表自动预填 + 会计师复核工作台</li>
+        <li>经 CRA 认证软件生态合作完成电子提交——<strong>无需自建认证，绕开行业最长的准入周期</strong></li>
+      </ul>
+    </div>
+    <div class="tri-card b">
+      <span class="tri-tag">业务线 2</span>
+      <h3>税务连锁加盟</h3>
+      <p>以 AI 工具为差异化武装加盟门店：</p>
+      <ul>
+        <li>统一品牌 + Google Maps 连锁曝光</li>
+        <li>白标 AI 平台，新店即拥有大所效率</li>
+        <li>一次性加盟费 + 年度平台费，<strong>永不抽营收分成</strong>（现有巨头模式为 12–14% 永久抽成）</li>
+        <li>加盟网络反向成为 SaaS 的分发渠道</li>
+      </ul>
+    </div>
+    <div class="tri-card c">
+      <span class="tri-tag">业务线 3</span>
+      <h3>AI 人工把关服务</h3>
+      <p>自建人工复核团队，为 AI 结果兜底：</p>
+      <ul>
+        <li>低置信度结果 100% 人工复核，产品可承诺「每个数字有人把关」</li>
+        <li>复核数据回流训练，形成数据飞轮</li>
+        <li>能力外溢：按件计费承接其他 AI 产品的结果审核需求，独立创收</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">04 · Business Model</div>
+  <h2>商业模式：订阅为基、加盟放大</h2>
+  <table>
+    <tr><th>收入流</th><th>定价</th><th>特点</th></tr>
+    <tr><td>SaaS 订阅（事务所）</td><td>CA$199 / 399 / 799 每月三档，按管理的客户企业数分级</td><td>经常性收入，报税季外亦有记账场景留存</td></tr>
+    <tr><td>加盟费 + 平台费</td><td>一次性 CA$15k–25k + 年费 CA$2.4k–4.8k</td><td>高毛利现金流，零分成模式对加盟商极具吸引力</td></tr>
+    <tr><td>人工把关服务（对外）</td><td>按件 / 坐席包月</td><td>反周期补充，客户为其他 AI 产品公司</td></tr>
+  </table>
+  <div class="highlight-box green">
+    <h4>📊 三年展望（基准情景，估算）</h4>
+    <p>第 1 年：10–15 家种子事务所，验证付费与留存 · 第 2 年：60–80 家事务所 + 首批 5 家加盟店，收入约 CA$40 万 · 第 3 年：150+ 家事务所 + 20 家加盟店 + 对外把关服务，收入约 CA$1.2–1.5M，SaaS 毛利率 80%+。完整三情景财务模型（含逐季现金流）NDA 后提供。</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">05 · Moat</div>
+  <h2>护城河：为什么是我们、为什么守得住</h2>
+  <div class="moat-grid">
+    <div class="moat-card"><div class="emoji">🧠</div><h4>数据飞轮</h4><p>每一次人工修正都沉淀为专有映射知识库，客户越多准确率越高、人工成本越低——先发者的曲线追不上。</p></div>
+    <div class="moat-card"><div class="emoji">🤝</div><h4>合作式准入</h4><p>经认证软件生态合作完成申报闭环，把行业最长的合规准入周期变成了别人的门槛、我们的通道。</p></div>
+    <div class="moat-card"><div class="emoji">🏪</div><h4>分发网络</h4><p>加盟体系是自带现金流的获客渠道；巨头面向专业会计师、不做小企业自动化，定位错位。</p></div>
+    <div class="moat-card"><div class="emoji">✅</div><h4>信任结构</h4><p>「AI 提效 + 100% 人工把关」直击税务场景最大的采购顾虑（错报责任），这是纯 AI 产品给不了的承诺。</p></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">06 · Traction Plan</div>
+  <h2>资本效率：6 个月到收入</h2>
+  <p class="section-desc">技术合伙人以 AI 辅助开发承担核心研发，全部基础设施走成熟 API 合作，无自研底层、无认证周期——这是一个小资金就能跑通的计划。</p>
+  <table>
+    <tr><th>里程碑</th><th>时点（资金到位后）</th><th>验证内容</th></tr>
+    <tr><td>产品可演示</td><td>第 2 个月</td><td>门户 + AI 识别跑通真实客户材料</td></tr>
+    <tr><td>核心闭环</td><td>第 4–5 个月</td><td>识别 → 记账 → 申报表预填 → 复核全流程</td></tr>
+    <tr><td><strong>首笔订阅收入</strong></td><td class="hl"><strong>第 6 个月</strong></td><td>3–5 家种子事务所付费使用</td></tr>
+    <tr><td>报税季实战</td><td>次年 2–4 月</td><td>完整报税季吞吐量与留存数据，为 Seed 轮定价</td></tr>
+  </table>
+  <div class="highlight-box">
+    <h4>💰 非稀释性资金叠加</h4>
+    <p>项目符合加拿大联邦及省级多项科技企业扶持计划（研发税收抵免、研发补贴、雇佣补贴），预计第一年可叠加非稀释性资金 CA$50k+，进一步拉长本轮资金跑道。</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">07 · The Ask</div>
+  <h2>本轮融资：Pre-Seed CA$100k–150k</h2>
+  <p class="section-desc">用途：把已验证的方案做成收费产品，并跑完第一个完整报税季。</p>
+  <div class="use-grid">
+    <div class="use-card"><div class="pct">~60%</div><div class="label">产品开发</div><div class="sub">合同制开发人力 + 设计，加速并行开发</div></div>
+    <div class="use-card"><div class="pct">~20%</div><div class="label">市场与种子客户</div><div class="sub">事务所渠道拓展、报税季营销</div></div>
+    <div class="use-card"><div class="pct">~20%</div><div class="label">运营与合规</div><div class="sub">保险、法务、基础设施、人工把关团队筹建</div></div>
+  </div>
+  <div class="team-grid" style="margin-top:28px">
+    <div class="team-card"><h4>技术合伙人</h4><p>全栈 + AI 工程背景，负责产品与 AI 引擎研发，已完成市场全景调研与技术验证路径设计。</p></div>
+    <div class="team-card"><h4>运营合伙人</h4><p>负责 AI 人工把关团队（人才基地）筹建与运营，及加盟体系拓展。</p></div>
+    <div class="team-card"><h4>专业资源</h4><p>持牌会计师合作网络（含 CRA 电子申报资质），提供税务专业把关与种子客户渠道。</p></div>
+  </div>
+</div>
+
+<div class="footer">
+  <strong>Taxalliance — AI 驱动的加拿大税务自动化平台</strong>
+  本文件仅供意向投资人评估使用 · 2026 年 7 月 · 所有财务数字为估算，详细技术方案、供应商协议与三情景财务模型于签署 NDA 后提供
+</div>
+
+</body>
+</html>
