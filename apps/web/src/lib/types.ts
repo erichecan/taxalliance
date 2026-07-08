@@ -41,6 +41,20 @@ export type Client = {
   stats: ClientStats;
 };
 
+export type BankTxn = {
+  id: string;
+  clientId: string;
+  date: string;
+  description: string;
+  amount: number;
+};
+
+export type ReconRow = {
+  txn: BankTxn;
+  matchedDocId: string | null;
+  matchedFileName: string | null;
+};
+
 export type DocumentRec = {
   id: string;
   clientId: string;

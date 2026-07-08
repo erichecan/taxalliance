@@ -1,4 +1,4 @@
-import type { Client, DocumentRec, GlAccount } from "./types";
+import type { Client, DocumentRec, GlAccount, BankTxn, ReconRow } from "./types";
 
 export const firm = { name: "易账", en: "Easetax", product: "AP 工作台" };
 
@@ -335,4 +335,53 @@ export function documentById(id: string) {
 }
 export function documentsByClient(id: string) {
   return documents.filter((d) => d.clientId === id);
+}
+
+// 银行流水（mock）：Maple Leaf Dental 支票账户 2026 年 6 月支出。
+// 前 9 笔金额/日期/描述与已收单据对得上，后 5 笔无对应收据 → 进「缺收据清单」。
+export const bankStatementMonth = "2026 年 6 月";
+export const bankTxns: BankTxn[] = [
+  { id: "b-01", clientId: "c-01", date: "2026-06-12", description: "AVIVA INSURANCE PREM", amount: 540.0 },
+  { id: "b-02", clientId: "c-01", date: "2026-06-16", description: "HYDRO ONE BILL PMT", amount: 242.5 },
+  { id: "b-03", clientId: "c-01", date: "2026-06-18", description: "SHOPIFY* SH772104", amount: 89.27 },
+  { id: "b-04", clientId: "c-01", date: "2026-06-21", description: "COSTCO WHOLESALE #443", amount: 176.64 },
+  { id: "b-05", clientId: "c-01", date: "2026-06-23", description: "AMAZON.CA*701-9928", amount: 101.67 },
+  { id: "b-06", clientId: "c-01", date: "2026-06-24", description: "UBER CANADA / TRIP", amount: 36.61 },
+  { id: "b-07", clientId: "c-01", date: "2026-06-26", description: "BELL CANADA PREAUTH", amount: 209.05 },
+  { id: "b-08", clientId: "c-01", date: "2026-06-29", description: "STAPLES CANADA #88", amount: 279.68 },
+  { id: "b-09", clientId: "c-01", date: "2026-07-01", description: "YONGE ST HOLDINGS RENT", amount: 3200.0 },
+  { id: "b-10", clientId: "c-01", date: "2026-06-14", description: "PETRO-CANADA 04412 TORONTO", amount: 92.15 },
+  { id: "b-11", clientId: "c-01", date: "2026-06-17", description: "SQUARE *DENTAL SUPPLY CO", amount: 418.0 },
+  { id: "b-12", clientId: "c-01", date: "2026-06-19", description: "TIM HORTONS #4021", amount: 18.4 },
+  { id: "b-13", clientId: "c-01", date: "2026-06-27", description: "STARBUCKS #1123 YONGE ST", amount: 26.75 },
+  { id: "b-14", clientId: "c-01", date: "2026-06-30", description: "MONTHLY ACCOUNT FEE", amount: 10.95 },
+];
+
+function daysApart(a: string, b: string) {
+  const ms = Math.abs(new Date(a).getTime() - new Date(b).getTime());
+  return ms / 86_400_000;
+}
+function vendorInDescription(vendor: string, description: string) {
+  const token = vendor.split(/[\s.]/)[0].toUpperCase();
+  return token.length >= 3 && description.toUpperCase().includes(token);
+}
+
+// 逐笔银行流水匹配已收单据：金额一致 + 日期 ±3 天 + 供应商名出现在描述里。
+export function reconcile(clientId: string): ReconRow[] {
+  const docs = documentsByClient(clientId);
+  return bankTxns
+    .filter((t) => t.clientId === clientId)
+    .map((txn) => {
+      const doc = docs.find(
+        (d) =>
+          Math.abs(d.total - txn.amount) < 0.02 &&
+          daysApart(d.txnDate, txn.date) <= 3 &&
+          vendorInDescription(d.vendor, txn.description),
+      );
+      return {
+        txn,
+        matchedDocId: doc?.id ?? null,
+        matchedFileName: doc?.fileName ?? null,
+      };
+    });
 }

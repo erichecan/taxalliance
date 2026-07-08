@@ -103,12 +103,20 @@ export function DocumentQueue({
             <span className="font-mono text-ink-700">{client.inboundEmail}</span>
           </p>
         </div>
-        <Link
-          href={`/clients/${client.id}/settings`}
-          className="shrink-0 rounded-lg border border-line bg-surface px-3 py-2 text-sm font-medium text-muted transition-colors hover:border-line-strong hover:text-ink-900"
-        >
-          设置
-        </Link>
+        <div className="flex shrink-0 items-center gap-2">
+          <Link
+            href={`/clients/${client.id}/reconciliation`}
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-sm font-medium text-muted transition-colors hover:border-line-strong hover:text-ink-900"
+          >
+            银行对账
+          </Link>
+          <Link
+            href={`/clients/${client.id}/settings`}
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-sm font-medium text-muted transition-colors hover:border-line-strong hover:text-ink-900"
+          >
+            设置
+          </Link>
+        </div>
       </header>
 
       {/* 收单入口：模拟上传 */}
