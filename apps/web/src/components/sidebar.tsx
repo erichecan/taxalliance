@@ -12,7 +12,7 @@ export function Sidebar() {
     <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-surface">
       <div className="flex items-center gap-2.5 px-5 py-5">
         <div className="grid size-9 place-items-center rounded-lg bg-ink-700 font-display text-lg font-bold text-white">
-          税
+          易
         </div>
         <div className="leading-tight">
           <div className="font-display text-[15px] font-bold text-ink-900">

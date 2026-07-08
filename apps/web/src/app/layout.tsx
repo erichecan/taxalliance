@@ -15,7 +15,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "税联 · AP 工作台",
+  title: "易账 Easetax · AP 工作台",
   description: "给会计师的多客户应付账款工作台 — 收单 · 识别 · 分类 · 录入 QuickBooks",
 };
 

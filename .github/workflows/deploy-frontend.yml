@@ -12,8 +12,8 @@ jobs:
     env:
       PROJECT_ID: supply-491510
       REGION: us-central1
-      SERVICE_NAME: taxalliance-web
-      IMAGE: us-central1-docker.pkg.dev/supply-491510/taxalliance/frontend:latest
+      SERVICE_NAME: easetax-web
+      IMAGE: us-central1-docker.pkg.dev/supply-491510/easetax/frontend:latest
     steps:
       - uses: actions/checkout@v4
       - uses: google-github-actions/auth@v2

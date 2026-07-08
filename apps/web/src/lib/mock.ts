@@ -1,6 +1,6 @@
 import type { Client, DocumentRec, GlAccount } from "./types";
 
-export const firm = { name: "税联", en: "TaxAlliance", product: "AP 工作台" };
+export const firm = { name: "易账", en: "Easetax", product: "AP 工作台" };
 
 export const glAccounts: GlAccount[] = [
   { id: "6000", code: "6000", name: "办公用品 Office Supplies" },
@@ -24,7 +24,7 @@ export const clients: Client[] = [
     name: "Maple Leaf Dental",
     industry: "牙科诊所",
     qboConnected: true,
-    inboundEmail: "client-c01@inbound.taxalliance.ca",
+    inboundEmail: "client-c01@inbound.easetax.ca",
     stats: { inbox: 3, review: 4, synced: 28 },
   },
   {
@@ -32,7 +32,7 @@ export const clients: Client[] = [
     name: "Northwind Bistro 北风餐厅",
     industry: "餐饮",
     qboConnected: true,
-    inboundEmail: "client-c02@inbound.taxalliance.ca",
+    inboundEmail: "client-c02@inbound.easetax.ca",
     stats: { inbox: 6, review: 2, synced: 51 },
   },
   {
@@ -40,7 +40,7 @@ export const clients: Client[] = [
     name: "Evergreen Landscaping",
     industry: "园林绿化",
     qboConnected: false,
-    inboundEmail: "client-c03@inbound.taxalliance.ca",
+    inboundEmail: "client-c03@inbound.easetax.ca",
     stats: { inbox: 2, review: 0, synced: 0 },
   },
   {
@@ -48,7 +48,7 @@ export const clients: Client[] = [
     name: "Skyline Trading 天成贸易",
     industry: "进出口贸易",
     qboConnected: true,
-    inboundEmail: "client-c04@inbound.taxalliance.ca",
+    inboundEmail: "client-c04@inbound.easetax.ca",
     stats: { inbox: 1, review: 3, synced: 73 },
   },
 ];
