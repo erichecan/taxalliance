@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
+import { demoUploadDoc } from "@/lib/mock";
 import type { Client, DocumentRec, DocStatus, Confidence } from "@/lib/types";
 
 const STATUS_META: Record<DocStatus, { label: string; cls: string }> = {
@@ -41,6 +42,13 @@ function inTab(tab: Tab, s: DocStatus) {
   return s === "duplicate" || s === "failed";
 }
 
+const STEPS = [
+  { key: "uploading", label: "上传文件到加拿大区存储" },
+  { key: "ocr", label: "Veryfi OCR 识别（供应商 / 金额 / 税 / 行项目）" },
+  { key: "classifying", label: "AI 分类到 GL 科目（规则 + Claude）" },
+] as const;
+type Phase = null | "uploading" | "ocr" | "classifying" | "done";
+
 export function DocumentQueue({
   client,
   docs,
@@ -49,7 +57,28 @@ export function DocumentQueue({
   docs: DocumentRec[];
 }) {
   const [tab, setTab] = useState<Tab>("all");
-  const rows = docs.filter((d) => inTab(tab, d.status));
+  const [phase, setPhase] = useState<Phase>(null);
+  const [uploaded, setUploaded] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const allDocs = uploaded ? [demoUploadDoc, ...docs] : docs;
+  const rows = allDocs.filter((d) => inTab(tab, d.status));
+
+  const runSimulation = () => {
+    if (phase) return;
+    setPhase("uploading");
+    setTimeout(() => setPhase("ocr"), 800);
+    setTimeout(() => setPhase("classifying"), 2000);
+    setTimeout(() => {
+      setPhase("done");
+      setUploaded(true);
+      setTab("needs_review");
+    }, 3100);
+    setTimeout(() => setPhase(null), 4400);
+  };
+
+  const phaseIndex =
+    phase === "uploading" ? 0 : phase === "ocr" ? 1 : phase === "classifying" ? 2 : 3;
 
   return (
     <div className="mx-auto max-w-6xl px-8 py-8">
@@ -82,9 +111,74 @@ export function DocumentQueue({
         </Link>
       </header>
 
+      {/* 收单入口：模拟上传 */}
+      <div className="mt-6">
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".pdf,.png,.jpg,.jpeg,.heic"
+          className="hidden"
+          onChange={() => runSimulation()}
+        />
+        {phase && phase !== "done" ? (
+          <div className="rounded-xl border border-line bg-surface p-5">
+            <div className="mb-3 flex items-center gap-2 text-sm font-medium text-ink-900">
+              <span className="inline-block size-4 animate-spin rounded-full border-2 border-line border-t-ink-700" />
+              正在处理 home-depot-receipt.jpg…
+            </div>
+            <ol className="space-y-2">
+              {STEPS.map((s, i) => {
+                const done = i < phaseIndex;
+                const active = i === phaseIndex;
+                return (
+                  <li key={s.key} className="flex items-center gap-2.5 text-sm">
+                    <span
+                      className={`grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-bold ${
+                        done
+                          ? "bg-conf-high text-white"
+                          : active
+                            ? "bg-gold-600 text-white"
+                            : "bg-paper text-faint"
+                      }`}
+                    >
+                      {done ? "✓" : i + 1}
+                    </span>
+                    <span className={active ? "text-ink-900" : done ? "text-muted" : "text-faint"}>
+                      {s.label}
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        ) : (
+          <button
+            onClick={() => inputRef.current?.click()}
+            className="group flex w-full items-center justify-center gap-3 rounded-xl border-2 border-dashed border-line bg-surface px-5 py-6 text-sm transition-colors hover:border-ink-600 hover:bg-paper"
+          >
+            <span className="grid size-9 place-items-center rounded-lg bg-ink-700/8 text-lg text-ink-700">
+              ⬆
+            </span>
+            <span className="text-left">
+              <span className="block font-medium text-ink-900">
+                拖拽或点击上传单据（PDF / 图片 / 扫描件）
+              </span>
+              <span className="block text-[11px] text-faint">
+                演示模式 — 会模拟一次「上传 → Veryfi 识别 → 自动分类」，产生一张待复核单据
+              </span>
+            </span>
+          </button>
+        )}
+        {uploaded && !phase && (
+          <div className="mt-2 rounded-lg bg-conf-high-bg px-3 py-2 text-xs text-conf-high">
+            ✓ 已识别 The Home Depot 收据，含 1 条低置信度行待人工分类 — 见下方「待复核」。
+          </div>
+        )}
+      </div>
+
       <div className="mt-6 flex gap-1 rounded-lg border border-line bg-surface p-1">
         {TABS.map((t) => {
-          const count = docs.filter((d) => inTab(t.key, d.status)).length;
+          const count = allDocs.filter((d) => inTab(t.key, d.status)).length;
           const active = tab === t.key;
           return (
             <button
@@ -122,10 +216,13 @@ export function DocumentQueue({
           <tbody>
             {rows.map((d) => {
               const meta = STATUS_META[d.status];
+              const isNew = d.id === demoUploadDoc.id;
               return (
                 <tr
                   key={d.id}
-                  className="border-b border-line last:border-0 transition-colors hover:bg-paper"
+                  className={`border-b border-line last:border-0 transition-colors hover:bg-paper ${
+                    isNew ? "rise bg-gold-50/40" : ""
+                  }`}
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2.5">
@@ -141,6 +238,11 @@ export function DocumentQueue({
                       <div className="min-w-0">
                         <div className="truncate font-medium text-ink-900">
                           {d.fileName}
+                          {isNew && (
+                            <span className="ml-2 rounded bg-gold-600 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                              新
+                            </span>
+                          )}
                         </div>
                         <div className="text-[11px] text-faint">
                           {d.source === "email" ? "邮件" : "上传"} · {d.receivedAt}

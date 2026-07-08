@@ -299,11 +299,39 @@ export const documents: DocumentRec[] = [
   },
 ];
 
+// 演示用：由「模拟上传」流程产生的单据。刻意不放进 documents，
+// 所以队列初始渲染不含它，只有走完上传动画后才在客户端插入。
+export const demoUploadDoc: DocumentRec = {
+  id: "d-demo-upload",
+  clientId: "c-01",
+  source: "upload",
+  fileName: "home-depot-receipt.jpg",
+  fileKind: "image",
+  vendor: "The Home Depot",
+  invoiceNo: "HD-2026-0714",
+  txnDate: "2026-07-08",
+  dueDate: "2026-07-08",
+  currency: "CAD",
+  subTotal: 176.4,
+  tax: hst(176.4),
+  taxLabel: "HST 13%",
+  total: 176.4 + hst(176.4),
+  status: "needs_review",
+  confidence: "low",
+  receivedAt: "刚刚",
+  lines: [
+    { id: "l1", description: "PVC 管件套装", amount: 48.0, glAccountId: "6110", glAccountName: "维修保养 Repairs & Maintenance", taxCode: "HST ON", confidence: "high" },
+    { id: "l2", description: "LED 灯管 T8 x6", amount: 71.4, glAccountId: null, glAccountName: null, taxCode: "HST ON", confidence: "low" },
+    { id: "l3", description: "工业清洁剂 5L", amount: 57.0, glAccountId: null, glAccountName: null, taxCode: "HST ON", confidence: "medium" },
+  ],
+  note: "演示：本单据由「模拟上传」生成，用于走通收单→识别→复核流程",
+};
+
 export function clientById(id: string) {
   return clients.find((c) => c.id === id);
 }
 export function documentById(id: string) {
-  return documents.find((d) => d.id === id);
+  return [...documents, demoUploadDoc].find((d) => d.id === id);
 }
 export function documentsByClient(id: string) {
   return documents.filter((d) => d.clientId === id);
