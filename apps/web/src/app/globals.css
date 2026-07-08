@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  /* 墨绿主色 — 财务/信任，避开俗套的会计软件蓝 */
+  --color-ink-950: #0b1512;
+  --color-ink-900: #16211e;
+  --color-ink-800: #1a3a30;
+  --color-ink-700: #1f4d3f;
+  --color-ink-600: #266552;
+  --color-ink-500: #2e7d5b;
+
+  /* 暖金强调 — 待审注意力 */
+  --color-gold-700: #a06d1f;
+  --color-gold-600: #c88a2e;
+  --color-gold-100: #f3e6cd;
+  --color-gold-50: #faf4e8;
+
+  /* 中性 — 冷白，不是奶油 */
+  --color-paper: #f7f9f8;
+  --color-surface: #ffffff;
+  --color-line: #e6ebe9;
+  --color-line-strong: #d3dbd8;
+  --color-muted: #64756f;
+  --color-faint: #93a19c;
+
+  /* 置信度语义 */
+  --color-conf-high: #2e7d5b;
+  --color-conf-high-bg: #e8f3ed;
+  --color-conf-med: #c88a2e;
+  --color-conf-med-bg: #faf1df;
+  --color-conf-low: #c0453b;
+  --color-conf-low-bg: #f9e7e5;
+
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-inter), "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --radius: 0.625rem;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+}
+
+.tnum { font-variant-numeric: tabular-nums; }
+
+* { scrollbar-width: thin; scrollbar-color: var(--color-line-strong) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--color-line-strong); border-radius: 99px; }
+
+:focus-visible { outline: 2px solid var(--color-ink-600); outline-offset: 2px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: riseIn 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
