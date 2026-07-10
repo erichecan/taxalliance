@@ -2,18 +2,22 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { demoUploadDoc } from "@/lib/mock";
+import { useRouter } from "next/navigation";
 import type { Client, DocumentRec, DocStatus, Confidence } from "@/lib/types";
 
 const STATUS_META: Record<DocStatus, { label: string; cls: string }> = {
   received: { label: "新到", cls: "bg-paper text-muted" },
-  processing: { label: "识别中", cls: "bg-gold-50 text-gold-700" },
+  ocr_processing: { label: "识别中", cls: "bg-gold-50 text-gold-700" },
+  ocr_done: { label: "识别完成", cls: "bg-gold-50 text-gold-700" },
+  classifying: { label: "分类中", cls: "bg-gold-50 text-gold-700" },
   needs_review: { label: "待复核", cls: "bg-gold-50 text-gold-700" },
   confirmed: { label: "已确认", cls: "bg-conf-high-bg text-conf-high" },
-  syncing: { label: "录入中", cls: "bg-gold-50 text-gold-700" },
+  syncing_qbo: { label: "录入中", cls: "bg-gold-50 text-gold-700" },
   synced: { label: "已录入", cls: "bg-conf-high-bg text-conf-high" },
-  duplicate: { label: "疑似重复", cls: "bg-conf-low-bg text-conf-low" },
-  failed: { label: "失败", cls: "bg-conf-low-bg text-conf-low" },
+  duplicate_suspected: { label: "疑似重复", cls: "bg-conf-low-bg text-conf-low" },
+  ocr_failed: { label: "识别失败", cls: "bg-conf-low-bg text-conf-low" },
+  sync_failed: { label: "录入失败", cls: "bg-conf-low-bg text-conf-low" },
+  rejected: { label: "已退回", cls: "bg-conf-low-bg text-conf-low" },
 };
 
 const CONF_DOT: Record<Confidence, string> = {
@@ -34,60 +38,72 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "exception", label: "异常" },
 ];
 
+const IN_PIPELINE: DocStatus[] = ["received", "ocr_processing", "ocr_done", "classifying"];
+const EXCEPTION: DocStatus[] = ["duplicate_suspected", "ocr_failed", "sync_failed", "rejected"];
+
 function inTab(tab: Tab, s: DocStatus) {
   if (tab === "all") return true;
-  if (tab === "needs_review")
-    return s === "needs_review" || s === "received" || s === "processing";
-  if (tab === "synced") return s === "synced" || s === "confirmed";
-  return s === "duplicate" || s === "failed";
+  if (tab === "needs_review") return s === "needs_review" || IN_PIPELINE.includes(s);
+  if (tab === "synced") return s === "synced" || s === "confirmed" || s === "syncing_qbo";
+  return EXCEPTION.includes(s);
 }
 
-const STEPS = [
-  { key: "uploading", label: "上传文件到加拿大区存储" },
-  { key: "ocr", label: "Veryfi OCR 识别（供应商 / 金额 / 税 / 行项目）" },
-  { key: "classifying", label: "AI 分类到 GL 科目（规则 + Claude）" },
-] as const;
-type Phase = null | "uploading" | "ocr" | "classifying" | "done";
+const STEPS = ["上传到存储", "Veryfi OCR 识别", "AI 分类到 GL 科目"];
 
-export function DocumentQueue({
-  client,
-  docs,
-}: {
-  client: Client;
-  docs: DocumentRec[];
-}) {
+function statusNotice(status: string): string {
+  if (status === "needs_review") return "✓ 已识别并分类，见「待复核」";
+  if (status === "ocr_failed") return "✗ OCR 识别失败，见「异常」";
+  return `✓ 已处理（${status}）`;
+}
+
+export function DocumentQueue({ client, docs }: { client: Client; docs: DocumentRec[] }) {
+  const router = useRouter();
   const [tab, setTab] = useState<Tab>("all");
-  const [phase, setPhase] = useState<Phase>(null);
-  const [uploaded, setUploaded] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const [notice, setNotice] = useState<string | null>(null);
+  const [justUploadedId, setJustUploadedId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const allDocs = uploaded ? [demoUploadDoc, ...docs] : docs;
-  const rows = allDocs.filter((d) => inTab(tab, d.status));
+  const rows = docs.filter((d) => inTab(tab, d.status));
 
-  const runSimulation = () => {
-    if (phase) return;
-    setPhase("uploading");
-    setTimeout(() => setPhase("ocr"), 800);
-    setTimeout(() => setPhase("classifying"), 2000);
-    setTimeout(() => {
-      setPhase("done");
-      setUploaded(true);
-      setTab("needs_review");
-    }, 3100);
-    setTimeout(() => setPhase(null), 4400);
-  };
+  async function uploadFile(file: File) {
+    if (busy) return;
+    setBusy(true);
+    setFileName(file.name);
+    setNotice(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("clientId", client.id);
+      const res = await fetch("/api/documents/upload", { method: "POST", body: fd });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setNotice(`✗ ${j.error ?? "上传失败"}`);
+        return;
+      }
+      setJustUploadedId(j.documentId ?? null);
+      setNotice(j.duplicate ? "⚠ 该文件疑似重复，未重复入账" : statusNotice(j.status));
+      setTab(j.duplicate ? "exception" : "needs_review");
+      router.refresh();
+    } catch {
+      setNotice("✗ 网络错误");
+    } finally {
+      setBusy(false);
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  }
 
-  const phaseIndex =
-    phase === "uploading" ? 0 : phase === "ocr" ? 1 : phase === "classifying" ? 2 : 3;
+  const noticeCls = notice?.startsWith("✓")
+    ? "bg-conf-high-bg text-conf-high"
+    : "bg-conf-low-bg text-conf-low";
 
   return (
     <div className="mx-auto max-w-6xl px-8 py-8">
       <header className="flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="font-display text-2xl font-bold text-ink-900">
-              {client.name}
-            </h1>
+            <h1 className="font-display text-2xl font-bold text-ink-900">{client.name}</h1>
             {client.qboConnected ? (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-conf-high-bg px-2.5 py-0.5 text-[11px] font-medium text-conf-high">
                 <span className="size-1.5 rounded-full bg-conf-high" /> QBO 已连接
@@ -119,44 +135,33 @@ export function DocumentQueue({
         </div>
       </header>
 
-      {/* 收单入口：模拟上传 */}
+      {/* 收单入口：真实上传 → 后端 OCR + 分类 */}
       <div className="mt-6">
         <input
           ref={inputRef}
           type="file"
           accept=".pdf,.png,.jpg,.jpeg,.heic"
           className="hidden"
-          onChange={() => runSimulation()}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) uploadFile(f);
+          }}
         />
-        {phase && phase !== "done" ? (
+        {busy ? (
           <div className="rounded-xl border border-line bg-surface p-5">
             <div className="mb-3 flex items-center gap-2 text-sm font-medium text-ink-900">
               <span className="inline-block size-4 animate-spin rounded-full border-2 border-line border-t-ink-700" />
-              正在处理 home-depot-receipt.jpg…
+              正在处理 {fileName}…
             </div>
             <ol className="space-y-2">
-              {STEPS.map((s, i) => {
-                const done = i < phaseIndex;
-                const active = i === phaseIndex;
-                return (
-                  <li key={s.key} className="flex items-center gap-2.5 text-sm">
-                    <span
-                      className={`grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-bold ${
-                        done
-                          ? "bg-conf-high text-white"
-                          : active
-                            ? "bg-gold-600 text-white"
-                            : "bg-paper text-faint"
-                      }`}
-                    >
-                      {done ? "✓" : i + 1}
-                    </span>
-                    <span className={active ? "text-ink-900" : done ? "text-muted" : "text-faint"}>
-                      {s.label}
-                    </span>
-                  </li>
-                );
-              })}
+              {STEPS.map((s) => (
+                <li key={s} className="flex items-center gap-2.5 text-sm text-muted">
+                  <span className="grid size-5 shrink-0 place-items-center rounded-full bg-gold-50 text-[11px] font-bold text-gold-700">
+                    ⋯
+                  </span>
+                  {s}
+                </li>
+              ))}
             </ol>
           </div>
         ) : (
@@ -169,39 +174,33 @@ export function DocumentQueue({
             </span>
             <span className="text-left">
               <span className="block font-medium text-ink-900">
-                拖拽或点击上传单据（PDF / 图片 / 扫描件）
+                点击上传单据（PDF / 图片 / 扫描件）
               </span>
               <span className="block text-[11px] text-faint">
-                演示模式 — 会模拟一次「上传 → Veryfi 识别 → 自动分类」，产生一张待复核单据
+                上传后自动走「Veryfi 识别 → AI 分类」，产生一张待复核单据
               </span>
             </span>
           </button>
         )}
-        {uploaded && !phase && (
-          <div className="mt-2 rounded-lg bg-conf-high-bg px-3 py-2 text-xs text-conf-high">
-            ✓ 已识别 The Home Depot 收据，含 1 条低置信度行待人工分类 — 见下方「待复核」。
-          </div>
+        {notice && !busy && (
+          <div className={`mt-2 rounded-lg px-3 py-2 text-xs ${noticeCls}`}>{notice}</div>
         )}
       </div>
 
       <div className="mt-6 flex gap-1 rounded-lg border border-line bg-surface p-1">
         {TABS.map((t) => {
-          const count = allDocs.filter((d) => inTab(t.key, d.status)).length;
+          const count = docs.filter((d) => inTab(t.key, d.status)).length;
           const active = tab === t.key;
           return (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
               className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                active
-                  ? "bg-ink-700 text-white"
-                  : "text-muted hover:bg-paper hover:text-ink-900"
+                active ? "bg-ink-700 text-white" : "text-muted hover:bg-paper hover:text-ink-900"
               }`}
             >
               {t.label}
-              <span
-                className={`tnum ml-1.5 text-xs ${active ? "text-white/70" : "text-faint"}`}
-              >
+              <span className={`tnum ml-1.5 text-xs ${active ? "text-white/70" : "text-faint"}`}>
                 {count}
               </span>
             </button>
@@ -224,7 +223,7 @@ export function DocumentQueue({
           <tbody>
             {rows.map((d) => {
               const meta = STATUS_META[d.status];
-              const isNew = d.id === demoUploadDoc.id;
+              const isNew = d.id === justUploadedId;
               return (
                 <tr
                   key={d.id}

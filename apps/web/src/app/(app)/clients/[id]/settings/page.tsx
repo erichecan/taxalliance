@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
-import { clientById } from "@/lib/mock";
+import { requireSession } from "@/lib/session";
+import { getClient } from "@/lib/queries";
 
 export default async function SettingsPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const session = await requireSession();
   const { id } = await params;
-  const client = clientById(id);
+  const client = await getClient(session.firmId, id);
   if (!client) notFound();
 
   return (

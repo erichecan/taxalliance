@@ -1,16 +1,14 @@
 import { notFound } from "next/navigation";
-import { clientById, documentsByClient } from "@/lib/mock";
+import { requireSession } from "@/lib/session";
+import { getClient, getClientDocuments } from "@/lib/queries";
 import { DocumentQueue } from "@/components/document-queue";
 
-export default async function DocumentsPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function DocumentsPage({ params }: { params: Promise<{ id: string }> }) {
+  const session = await requireSession();
   const { id } = await params;
-  const client = clientById(id);
+  const client = await getClient(session.firmId, id);
   if (!client) notFound();
-  const docs = documentsByClient(id);
+  const docs = await getClientDocuments(session.firmId, id);
 
   return <DocumentQueue client={client} docs={docs} />;
 }

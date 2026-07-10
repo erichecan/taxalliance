@@ -1,14 +1,9 @@
-export type Confidence = "high" | "medium" | "low";
+// ⚠️ 枚举类型的唯一来源是 @/domain（数据契约 G7）。本文件只 re-export，
+// 并保留「演示 UI 专用」的视图类型（真实 DB 版本用 Prisma 生成类型）。
+export type { Confidence, DocStatus, DocSource } from "@/domain";
+import type { Confidence, DocStatus } from "@/domain";
 
-export type DocStatus =
-  | "received"
-  | "processing"
-  | "needs_review"
-  | "confirmed"
-  | "syncing"
-  | "synced"
-  | "duplicate"
-  | "failed";
+// ---- 以下为 demo/mock 的视图类型，非持久层模型 ----
 
 export type GlAccount = {
   id: string;

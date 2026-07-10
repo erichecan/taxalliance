@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { Client, DocumentRec, GlAccount, LineItem, Confidence } from "@/lib/types";
 
 const money = (n: number) =>
@@ -19,10 +20,12 @@ export function ReviewWorkbench({
   doc,
   client,
   accounts,
+  ocrText,
 }: {
   doc: DocumentRec;
   client: Client;
   accounts: GlAccount[];
+  ocrText?: string | null;
 }) {
   const [lines, setLines] = useState<LineItem[]>(() =>
     [...doc.lines].sort((a, b) => confRank[a.confidence] - confRank[b.confidence]),
@@ -50,6 +53,74 @@ export function ReviewWorkbench({
   );
   const allAssigned = lines.length > 0 && lines.every((l) => l.glAccountId);
 
+  const router = useRouter();
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [origMode, setOrigMode] = useState<"raw" | "summary">("raw");
+  const [copied, setCopied] = useState(false);
+
+  async function copyOcr() {
+    const text = ocrText ?? "";
+    let ok = false;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      }
+    } catch {
+      ok = false;
+    }
+    if (!ok) {
+      // 兜底：临时 textarea + execCommand（旧浏览器/非安全上下文）
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch {
+        ok = false;
+      }
+    }
+    if (ok) {
+      setCopied(true);
+      setError(null);
+      setTimeout(() => setCopied(false), 1500);
+    } else {
+      setError("复制失败，请手动选中复制");
+    }
+  }
+
+  async function confirm() {
+    if (!allAssigned || saving) return;
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/documents/${doc.id}/confirm`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          assignments: lines.map((l) => ({ lineId: l.id, glAccountId: l.glAccountId })),
+        }),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(j.error ?? `确认失败 (${res.status})`);
+        return;
+      }
+      router.push(`/clients/${client.id}/documents`);
+      router.refresh();
+    } catch {
+      setError("网络错误");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <div className="flex h-full flex-col">
       <header className="flex items-center justify-between border-b border-line bg-surface px-6 py-3">
@@ -69,14 +140,16 @@ export function ReviewWorkbench({
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {error && <span className="text-xs text-conf-low">{error}</span>}
           <button className="rounded-lg border border-line bg-surface px-3 py-2 text-sm font-medium text-muted transition-colors hover:border-line-strong hover:text-ink-900">
             退回
           </button>
           <button
-            disabled={!allAssigned}
+            onClick={confirm}
+            disabled={!allAssigned || saving}
             className="rounded-lg bg-ink-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink-800 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {allAssigned ? "确认并录入 QBO" : "尚有未分类行"}
+            {saving ? "确认中…" : allAssigned ? "确认分类" : "尚有未分类行"}
           </button>
         </div>
       </header>
@@ -84,9 +157,48 @@ export function ReviewWorkbench({
       <div className="grid flex-1 grid-cols-1 gap-px overflow-hidden bg-line lg:grid-cols-[1fr_1.4fr_1fr]">
         {/* 左：原件预览 */}
         <section className="overflow-y-auto bg-paper p-5">
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-faint">
-            原件
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-faint">原件</span>
+            <div className="flex gap-1 rounded-md border border-line bg-surface p-0.5">
+              <button
+                onClick={() => setOrigMode("raw")}
+                className={`rounded px-2 py-0.5 text-[11px] font-medium transition-colors ${
+                  origMode === "raw" ? "bg-ink-700 text-white" : "text-muted hover:text-ink-900"
+                }`}
+              >
+                识别原文
+              </button>
+              <button
+                onClick={() => setOrigMode("summary")}
+                className={`rounded px-2 py-0.5 text-[11px] font-medium transition-colors ${
+                  origMode === "summary" ? "bg-ink-700 text-white" : "text-muted hover:text-ink-900"
+                }`}
+              >
+                摘要
+              </button>
+            </div>
           </div>
+          {origMode === "raw" && (
+            <>
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-[11px] text-faint">Veryfi 识别原文（全文）</span>
+                <button
+                  onClick={copyOcr}
+                  disabled={!ocrText}
+                  className="rounded-md border border-line bg-surface px-2 py-0.5 text-[11px] font-medium text-muted transition-colors hover:text-ink-900 disabled:opacity-40"
+                >
+                  {copied ? "已复制 ✓" : "复制原文"}
+                </button>
+              </div>
+              <pre
+                className="max-h-[calc(100vh-13rem)] overflow-auto whitespace-pre rounded-lg border border-line bg-surface p-4 font-mono text-[11px] leading-relaxed text-ink-900"
+                style={{ tabSize: 4 }}
+              >
+                {ocrText ?? "（无识别原文）"}
+              </pre>
+            </>
+          )}
+          {origMode === "summary" && (
           <div className="rounded-lg border border-line bg-surface p-5 shadow-[0_1px_8px_-4px_rgba(31,77,63,0.12)]">
             <div className="flex items-center justify-between border-b border-line pb-3">
               <span className="font-display text-lg font-bold text-ink-900">
@@ -127,6 +239,7 @@ export function ReviewWorkbench({
               📎 {doc.fileName}
             </div>
           </div>
+          )}
           {doc.note && (
             <div className="mt-3 rounded-lg bg-conf-low-bg px-3 py-2 text-xs text-conf-low">
               ⚠ {doc.note}

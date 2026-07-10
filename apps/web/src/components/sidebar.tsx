@@ -1,12 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { clients, firm } from "@/lib/mock";
+import { usePathname, useRouter } from "next/navigation";
+import type { Client } from "@/lib/types";
 
-export function Sidebar() {
+export function Sidebar({ clients, firmName }: { clients: Client[]; firmName: string }) {
   const path = usePathname();
-  const activeClient = path.match(/\/clients\/(c-\d+)/)?.[1];
+  const router = useRouter();
+  const activeClient = path.match(/\/clients\/([^/]+)/)?.[1];
+
+  async function logout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.replace("/login");
+    router.refresh();
+  }
 
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-surface">
@@ -15,12 +22,8 @@ export function Sidebar() {
           易
         </div>
         <div className="leading-tight">
-          <div className="font-display text-[15px] font-bold text-ink-900">
-            {firm.name}
-          </div>
-          <div className="text-[11px] tracking-wide text-faint">
-            {firm.product} · {firm.en}
-          </div>
+          <div className="font-display text-[15px] font-bold text-ink-900">{firmName}</div>
+          <div className="text-[11px] tracking-wide text-faint">AP 工作台 · Easetax</div>
         </div>
       </div>
 
@@ -47,9 +50,7 @@ export function Sidebar() {
               key={c.id}
               href={`/clients/${c.id}/documents`}
               className={`group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${
-                active
-                  ? "bg-ink-700/10 text-ink-900"
-                  : "text-muted hover:bg-paper hover:text-ink-900"
+                active ? "bg-ink-700/10 text-ink-900" : "text-muted hover:bg-paper hover:text-ink-900"
               }`}
             >
               <span className="flex items-center gap-2 truncate">
@@ -68,17 +69,28 @@ export function Sidebar() {
             </Link>
           );
         })}
+        {clients.length === 0 && (
+          <div className="px-3 py-2 text-xs text-faint">暂无客户</div>
+        )}
       </nav>
 
       <div className="border-t border-line px-4 py-3">
-        <div className="flex items-center gap-2.5">
-          <div className="grid size-8 place-items-center rounded-full bg-ink-700/10 text-sm font-semibold text-ink-700">
-            陈
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="grid size-8 place-items-center rounded-full bg-ink-700/10 text-sm font-semibold text-ink-700">
+              会
+            </div>
+            <div className="leading-tight">
+              <div className="text-sm font-medium text-ink-900">会计师</div>
+              <div className="text-[11px] text-faint">Accountant</div>
+            </div>
           </div>
-          <div className="leading-tight">
-            <div className="text-sm font-medium text-ink-900">陈会计</div>
-            <div className="text-[11px] text-faint">高级会计师 · CPA</div>
-          </div>
+          <button
+            onClick={logout}
+            className="rounded-md px-2 py-1 text-[11px] text-faint transition-colors hover:bg-paper hover:text-ink-900"
+          >
+            登出
+          </button>
         </div>
       </div>
     </aside>

@@ -1,0 +1,3 @@
+// 领域 SSOT 出口。所有模块从 "@/domain" 导入枚举与状态机。
+export * from "./doc-status";
+export * from "./enums";

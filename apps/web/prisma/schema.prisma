@@ -1,0 +1,167 @@
+// Easetax AP 工作台 — 唯一模型来源。
+// 对应数据契约 docs/20260708-data-ownership-contract.md §3。
+// 枚举值（status/confidence/source/role/matchStatus）以 src/domain 为 SSOT，DB 存 String。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Prisma 7：datasource 不再带 url。迁移连接串在 prisma.config.ts，
+// 运行时通过 driver adapter 传入（见 src/lib/db.ts）。
+datasource db {
+  provider = "postgresql"
+}
+
+// ---- 租户 / 主体 ----
+
+model Firm {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  users     User[]
+  clients   Client[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  firmId       String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("accountant") // domain UserRole
+  createdAt    DateTime @default(now())
+  firm         Firm     @relation(fields: [firmId], references: [id])
+
+  @@index([firmId])
+}
+
+model Client {
+  id              String     @id @default(cuid())
+  firmId          String
+  name            String
+  industry        String?
+  qboRealmId      String? // 空 = 未连 QBO（一等状态，契约 §4.2）
+  qboRefreshToken String? // 加密存储（契约 G5/非功能需求）
+  inboundEmail    String     @unique // 派生规则钉死，契约 §4.3
+  createdAt       DateTime   @default(now())
+  firm            Firm       @relation(fields: [firmId], references: [id])
+  documents       Document[]
+  bankTxns        BankTxn[]
+  glAccounts      GlAccountCache[]
+
+  @@index([firmId])
+}
+
+// ---- 单据主链 ----
+
+model Document {
+  id         String      @id @default(cuid())
+  firmId     String
+  clientId   String
+  source     String // domain DocSource: email|upload
+  fileName   String
+  mimeType   String
+  storageKey String
+  fileHash   String
+  status     String      @default("received") // domain DocStatus，契约 §4.1
+  qboBillId  String? // 录入成功回填；synced 后靠它回查（契约 G5）
+  createdAt  DateTime    @default(now())
+  client     Client      @relation(fields: [clientId], references: [id])
+  extraction Extraction?
+  lines      LineItem[]
+  bankTxns   BankTxn[]
+
+  @@unique([firmId, fileHash]) // 收单去重
+  @@index([clientId, status])
+}
+
+model Extraction {
+  id              String    @id @default(cuid())
+  documentId      String    @unique
+  rawJson         Json
+  vendorName      String?
+  invoiceNo       String?
+  txnDate         DateTime?
+  dueDate         DateTime?
+  currency        String?
+  subTotal        Decimal?  @db.Decimal(14, 2)
+  taxAmount       Decimal?  @db.Decimal(14, 2)
+  total           Decimal?  @db.Decimal(14, 2)
+  fieldConfidence Json? // OCR 字段级置信度
+  document        Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
+
+model LineItem {
+  id            String   @id @default(cuid())
+  documentId    String
+  description   String
+  amount        Decimal  @db.Decimal(14, 2)
+  glAccountId   String? // = QBO Account.Id（契约 G2），非本地代码
+  glAccountName String? // derived 快照：下单时冻结的科目名（契约 §4.4）
+  taxCode       String? // = QBO TaxCode.Id，非显示串
+  confidence    String   @default("low") // domain Confidence
+  document      Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([documentId])
+}
+
+// ---- 分类规则 / 学习 ----
+
+model ClassificationRule {
+  id            String   @id @default(cuid())
+  firmId        String
+  clientId      String?
+  matchType     String // domain RuleMatchType: vendor|keyword
+  matchValue    String
+  glAccountId   String // = QBO Account.Id
+  glAccountName String // derived 快照
+  createdAt     DateTime @default(now())
+
+  @@index([firmId, clientId])
+}
+
+// ---- 科目缓存（QBO 为权威，本地为同步副本，契约 G2/§4.4/§4.5）----
+
+model GlAccountCache {
+  id             String   @id @default(cuid())
+  clientId       String
+  qboAccountId   String // canonical id
+  name           String
+  accountType    String
+  accountSubType String?
+  gifiCode       String? // GIFI 挂科目上（契约 §4.5），报税期派生
+  syncedAt       DateTime @default(now()) // cache 回填时点
+  client         Client   @relation(fields: [clientId], references: [id])
+
+  @@unique([clientId, qboAccountId])
+}
+
+// ---- 银行流水 / 对账 ----
+
+model BankTxn {
+  id                String   @id @default(cuid())
+  firmId            String
+  clientId          String
+  date              DateTime
+  description       String
+  amount            Decimal  @db.Decimal(14, 2)
+  matchedDocumentId String? // canonical：人工/自动确认的关联（契约 §4.6）
+  matchStatus       String   @default("unmatched") // domain MatchStatus
+  client            Client   @relation(fields: [clientId], references: [id])
+  matchedDocument   Document? @relation(fields: [matchedDocumentId], references: [id])
+
+  @@index([clientId])
+}
+
+// ---- 审计 ----
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  firmId     String
+  userId     String
+  documentId String?
+  action     String
+  detail     Json
+  createdAt  DateTime @default(now())
+
+  @@index([firmId, documentId])
+}

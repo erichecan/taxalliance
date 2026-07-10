@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { clients } from "@/lib/mock";
+import { requireSession } from "@/lib/session";
+import { getClientsForFirm } from "@/lib/queries";
 
-export default function ClientsPage() {
+export default async function ClientsPage() {
+  const session = await requireSession();
+  const clients = await getClientsForFirm(session.firmId);
   const totalReview = clients.reduce((s, c) => s + c.stats.review, 0);
   const totalInbox = clients.reduce((s, c) => s + c.stats.inbox, 0);
 
