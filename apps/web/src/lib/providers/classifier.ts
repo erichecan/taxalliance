@@ -18,7 +18,7 @@ export type ClassifyInput = {
   suggestedCategory?: { glAccountId: string; glAccountName: string; score: number } | null;
 };
 
-export type ClassificationSource = "rule" | "llm" | "veryfi" | "none";
+export type ClassificationSource = "rule" | "llm" | "veryfi" | "seed" | "none";
 
 export type Classification = {
   glAccountId: string | null; // QBO Account.Id

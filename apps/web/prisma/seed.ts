@@ -9,7 +9,8 @@ const CLIENT_ID = "client-demo";
 const DEMO_EMAIL = "demo@easetax.ca";
 const DEMO_PASSWORD = "easetax-demo"; // 仅 dev 种子；上线换
 
-// 模拟客户 QBO 科目表（id = QBO Account.Id，契约 G2）
+// 模拟客户 QBO 科目表（id = QBO Account.Id，契约 G2）。
+// 一套典型加拿大小企业费用科目——名字含类别关键词，供 vendor-seed 按类别定位。
 const ACCOUNTS = [
   { id: "7", name: "Office Supplies 办公用品" },
   { id: "12", name: "Telephone & Internet 电话网络" },
@@ -17,6 +18,16 @@ const ACCOUNTS = [
   { id: "23", name: "Meals & Entertainment 餐饮招待" },
   { id: "31", name: "Software & Subscriptions 软件订阅" },
   { id: "40", name: "Utilities 水电杂费" },
+  { id: "45", name: "Vehicle & Fuel 汽车油费" },
+  { id: "50", name: "Repairs & Maintenance 维修保养" },
+  { id: "55", name: "Travel 差旅交通" },
+  { id: "60", name: "Insurance 保险" },
+  { id: "65", name: "Shipping & Postage 运费邮寄" },
+  { id: "70", name: "Bank Charges & Merchant Fees 银行手续费" },
+  { id: "75", name: "Advertising & Promotion 广告推广" },
+  { id: "80", name: "Professional Fees 专业服务费" },
+  { id: "85", name: "Cost of Goods Sold 销货成本" },
+  { id: "90", name: "Supplies & Materials 材料耗材" },
   { id: "44", name: "General Expenses 一般费用" },
 ];
 

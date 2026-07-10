@@ -95,7 +95,7 @@
 | 风险 | 级别 | 应对 |
 |------|------|------|
 | **PIPEDA 数据驻留**：文档要求客户税务数据存加拿大区，现部署在美国 `us-central1` | 高 | §9 待你裁定：迁 ca 区 / 或 MVP 仅 sandbox 演示数据(不涉真实客户)暂留 us |
-| **GCP 项目歧义**：workflow 用 `supply-491510`，但全局规则记 `print-482914` 才是实际项目 | 高 | §9 待你确认唯一正确项目 ID，绝不自行猜测 |
+| ~~GCP 项目歧义~~（已确认） | — | GCP 项目 = `supply-491510`（用户 2026-07-09 确认，唯一正确） |
 | 外部密钥未配置（Veryfi/Claude/Intuit） | 中 | Provider 抽象 + mock 兜底，密钥到位再切真实；不阻塞 P0/P1/P4 |
 | QBO 生产审查 2–4 周 | 中 | 全程 sandbox 开发，并行提交审查 |
 | Veryfi $500/月最低消费 | 低 | 开发用 100 份/月免费额度 |
@@ -120,7 +120,7 @@
 | 外部密钥 | **仅 Veryfi 真跑**（100 份/月免费额度）；**QBO、Claude 先 mock provider**，密钥到位再切 |
 | 功能范围 | **就按 MVP 核心链**（收单→OCR→分类→复核→录入 QBO，单客户，schema 预留多租户）；砍审批/付款/多客户界面/报税 |
 
-**⛔ 仍未决（仅部署阶段 P6 需要，不阻塞 P0–P5）**：唯一正确的 **GCP Project ID**——workflow 现写 `supply-491510`，但全局规则记 `print-482914` 为实际项目。部署前必须由用户确认，绝不自行猜测；同时把 workflow 的 `REGION` 从 `us-central1` 改为加拿大区。
+**GCP Project ID 已确认**：`supply-491510`（用户 2026-07-09 确认，唯一正确）。部署前仍需把 workflow 的 `REGION` 从 `us-central1` 改为加拿大区（PIPEDA）。
 
 **需要用户提供的凭据（到对应阶段时索取）**：
 - P0 前：Neon `DATABASE_URL`、`JWT_SECRET`（否则无法 `prisma migrate` 与登录联调）
